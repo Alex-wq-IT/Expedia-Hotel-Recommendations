@@ -1,0 +1,53 @@
+# =========================
+# DATA
+# =========================
+
+/data/**
+!/data/query_duckdb.py
+
+/test_location_ids.csv
+/test_location_ids_unique.csv
+
+# =========================
+# SUPERSET
+# =========================
+
+/superset/
+
+# =========================
+# JUPYTER / PYTHON
+# =========================
+
+**/.ipynb_checkpoints/
+
+__pycache__/
+*.py[cod]
+
+.venv/
+venv/
+env/
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# =========================
+# IDE / TEMP
+# =========================
+
+.vscode/
+.idea/
+
+.DS_Store
+/project_tree.txt
+
+*.log
+*.tmp
+
+# =========================
+# SECRETS
+# =========================
+
+.env
+.env.*
+!.env.example

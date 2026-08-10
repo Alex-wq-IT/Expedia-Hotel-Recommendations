@@ -1,0 +1,97 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8
+    container_name: expedia_clickhouse
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      CLICKHOUSE_DB: expedia
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: ""
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_logs:/var/log/clickhouse-server
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8123/ping | grep -q Ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hotelsbooking-superset:local
+    container_name: expedia_superset
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-change-me-for-local-only}
+      SUPERSET_LOAD_EXAMPLES: "no"
+      SUPERSET_CONFIG_PATH: /app/pythonpath/superset_config.py
+      DATABASE_DB: superset
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USER: superset
+      DATABASE_PASSWORD: superset
+      ADMIN_USERNAME: ${SUPERSET_USERNAME:-admin}
+      ADMIN_PASSWORD: ${SUPERSET_PASSWORD:-admin}
+      ADMIN_EMAIL: ${SUPERSET_EMAIL:-admin@example.com}
+    command: ["/bin/sh", "-c", "gunicorn --bind 0.0.0.0:8088 --workers 2 'superset.app:create_app()'"]
+    volumes:
+      - superset_home:/app/superset_home
+      - ./superset_config.py:/app/pythonpath/superset_config.py:ro
+    depends_on:
+      superset-init:
+        condition: service_completed_successfully
+      clickhouse:
+        condition: service_healthy
+
+  db:
+    image: postgres:16
+    container_name: expedia_superset_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: superset
+      POSTGRES_USER: superset
+      POSTGRES_PASSWORD: superset
+    volumes:
+      - superset_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U superset -d superset"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  superset-init:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hotelsbooking-superset:local
+    container_name: expedia_superset_init
+    environment:
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-change-me-for-local-only}
+      SUPERSET_CONFIG_PATH: /app/pythonpath/superset_config.py
+      DATABASE_DB: superset
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USER: superset
+      DATABASE_PASSWORD: superset
+      ADMIN_USERNAME: ${SUPERSET_USERNAME:-admin}
+      ADMIN_PASSWORD: ${SUPERSET_PASSWORD:-admin}
+      ADMIN_EMAIL: ${SUPERSET_EMAIL:-admin@example.com}
+    command: ["/bin/sh", "-c", "superset db upgrade && (superset fab create-admin --username \"$$ADMIN_USERNAME\" --firstname Admin --lastname User --email \"$$ADMIN_EMAIL\" --password \"$$ADMIN_PASSWORD\" || true) && superset init"]
+    volumes:
+      - ./superset_config.py:/app/pythonpath/superset_config.py:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  clickhouse_data:
+  clickhouse_logs:
+  superset_home:
+  superset_db:

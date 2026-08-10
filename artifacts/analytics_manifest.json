@@ -1,0 +1,182 @@
+{
+  "manifest_version": 1,
+  "build_timestamp": "2026-08-09T15:36:27+00:00",
+  "session_rule_version": "gap_30m_v1",
+  "source_population": {
+    "source_dataset": "train",
+    "filters": [
+      "user_id IS NOT NULL",
+      "event_ts IS NOT NULL"
+    ]
+  },
+  "validation": {
+    "event_session_map_rows": 37669324,
+    "eligible_train_events": 37669324,
+    "session_rows": 12242331,
+    "session_map_duplicate_keys": 0,
+    "session_map_orphan_events": 0,
+    "session_user_violations": 0,
+    "negative_session_durations": 0,
+    "session_row_count_mismatch": 0,
+    "session_weighted_count_mismatch": 0,
+    "session_booking_row_mismatch": 0,
+    "session_first_after_last_violations": 0,
+    "pass": true
+  },
+  "session_summary": {
+    "eligible_events": 37669324,
+    "sessions": 12242331,
+    "users": 1198786,
+    "booking_sessions": 2661774,
+    "one_row_sessions": 4467893,
+    "max_duration_seconds": 26881,
+    "p50_duration_seconds": 159.0,
+    "p90_duration_seconds": 1636.0,
+    "p99_duration_seconds": 4279.0
+  },
+  "sensitivity": {
+    "sample_user_count": 59948,
+    "sample_event_count": 1877090,
+    "rows": [
+      {
+        "gap_minutes": 15,
+        "sessions": 691579,
+        "active_users": 59948,
+        "sessions_per_active_user": 11.536314806165343,
+        "median_rows_per_session": 2.0,
+        "median_weighted_events_per_session": 2.0,
+        "median_session_duration_seconds": 92.0,
+        "p90_session_duration_seconds": 971.0,
+        "one_row_session_share_pct": 42.07675478867924,
+        "booking_session_rate_pct": 19.445356206593896,
+        "multi_destination_session_share_pct": 10.939314235973042,
+        "multi_booking_row_session_share_pct": 1.5561490444331016
+      },
+      {
+        "gap_minutes": 30,
+        "sessions": 609033,
+        "active_users": 59948,
+        "sessions_per_active_user": 10.159354774137586,
+        "median_rows_per_session": 2.0,
+        "median_weighted_events_per_session": 3.0,
+        "median_session_duration_seconds": 159.0,
+        "p90_session_duration_seconds": 1635.0,
+        "one_row_session_share_pct": 36.470109173066156,
+        "booking_session_rate_pct": 21.596366699341417,
+        "multi_destination_session_share_pct": 14.123044235698229,
+        "multi_booking_row_session_share_pct": 2.091019698439986
+      },
+      {
+        "gap_minutes": 60,
+        "sessions": 565685,
+        "active_users": 59948,
+        "sessions_per_active_user": 9.436261426569693,
+        "median_rows_per_session": 2.0,
+        "median_weighted_events_per_session": 3.0,
+        "median_session_duration_seconds": 203.0,
+        "p90_session_duration_seconds": 2402.0,
+        "one_row_session_share_pct": 33.69454731873746,
+        "booking_session_rate_pct": 22.939621874364708,
+        "multi_destination_session_share_pct": 16.285034957617757,
+        "multi_booking_row_session_share_pct": 2.447298408124663
+      },
+      {
+        "gap_minutes": 120,
+        "sessions": 540078,
+        "active_users": 59948,
+        "sessions_per_active_user": 9.009107893507707,
+        "median_rows_per_session": 2.0,
+        "median_weighted_events_per_session": 3.0,
+        "median_session_duration_seconds": 232.0,
+        "p90_session_duration_seconds": 3204.0,
+        "one_row_session_share_pct": 32.342735678920455,
+        "booking_session_rate_pct": 23.814152770525737,
+        "multi_destination_session_share_pct": 17.789837764174806,
+        "multi_booking_row_session_share_pct": 2.6922037187221104
+      }
+    ]
+  },
+  "marts": [
+    {
+      "table_name": "marts.mart_booking_frequency",
+      "row_count": 5,
+      "parquet_path": "data/derived/marts/mart_booking_frequency.parquet"
+    },
+    {
+      "table_name": "marts.mart_channel_platform",
+      "row_count": 11720,
+      "parquet_path": "data/derived/marts/mart_channel_platform.parquet"
+    },
+    {
+      "table_name": "marts.mart_data_quality_daily",
+      "row_count": 724,
+      "parquet_path": "data/derived/marts/mart_data_quality_daily.parquet"
+    },
+    {
+      "table_name": "marts.mart_destination_performance",
+      "row_count": 502728,
+      "parquet_path": "data/derived/marts/mart_destination_performance.parquet"
+    },
+    {
+      "table_name": "marts.mart_distance_quality",
+      "row_count": 49,
+      "parquet_path": "data/derived/marts/mart_distance_quality.parquet"
+    },
+    {
+      "table_name": "marts.mart_origin_destination",
+      "row_count": 151998,
+      "parquet_path": "data/derived/marts/mart_origin_destination.parquet"
+    },
+    {
+      "table_name": "marts.mart_product_daily",
+      "row_count": 724,
+      "parquet_path": "data/derived/marts/mart_product_daily.parquet"
+    },
+    {
+      "table_name": "marts.mart_retention_cohort",
+      "row_count": 300,
+      "parquet_path": "data/derived/marts/mart_retention_cohort.parquet"
+    },
+    {
+      "table_name": "marts.mart_session_daily",
+      "row_count": 724,
+      "parquet_path": "data/derived/marts/mart_session_daily.parquet"
+    },
+    {
+      "table_name": "marts.mart_travel_calendar_daily",
+      "row_count": 6908,
+      "parquet_path": "data/derived/marts/mart_travel_calendar_daily.parquet"
+    },
+    {
+      "table_name": "marts.mart_trip_profile",
+      "row_count": 2399,
+      "parquet_path": "data/derived/marts/mart_trip_profile.parquet"
+    },
+    {
+      "table_name": "marts.mart_user_360",
+      "row_count": 1198786,
+      "parquet_path": "data/derived/marts/mart_user_360.parquet"
+    }
+  ],
+  "core_session_objects": [
+    {
+      "table_name": "core.event_session_map",
+      "grain": "one event assigned to one session under one rule version",
+      "primary_key": [
+        "event_id",
+        "session_rule_version"
+      ],
+      "row_count": 37669324,
+      "parquet_path": "data/derived/core/event_session_map.parquet"
+    },
+    {
+      "table_name": "core.fct_session",
+      "grain": "one reconstructed user session under one rule version",
+      "primary_key": [
+        "session_id"
+      ],
+      "row_count": 12242331,
+      "parquet_path": "data/derived/core/fct_session.parquet"
+    }
+  ]
+}

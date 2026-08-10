@@ -1,0 +1,62 @@
+{
+  "algorithm": "default",
+  "token": {
+    "colorPrimary": "#1668E3",
+    "colorInfo": "#1668E3",
+    "colorSuccess": "#227950",
+    "colorWarning": "#8B6400",
+    "colorError": "#A7183C",
+    "colorText": "#191E3B",
+    "colorTextSecondary": "#676A7D",
+    "colorTextTertiary": "#818494",
+    "colorBorder": "#DFE0E4",
+    "colorBorderSecondary": "#DFE0E4",
+    "colorBgLayout": "#F8F9FA",
+    "colorBgContainer": "#FFFFFF",
+    "colorBgElevated": "#FFFFFF",
+    "colorFillAlter": "#EFF3F7",
+    "colorPrimaryBg": "#E8F1FD",
+    "colorPrimaryBgHover": "#D7E8FC",
+    "colorPrimaryBorder": "#1668E3",
+    "colorPrimaryBorderHover": "#1668E3",
+    "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    "fontFamilyCode": "'SFMono-Regular', Consolas, 'Liberation Mono', monospace",
+    "fontSize": 14,
+    "fontSizeSM": 12,
+    "fontSizeLG": 16,
+    "fontWeightStrong": 650,
+    "lineHeight": 1.45,
+    "borderRadius": 8,
+    "borderRadiusSM": 6,
+    "borderRadiusLG": 10,
+    "controlHeight": 38,
+    "controlHeightSM": 32,
+    "boxShadow": "0 2px 8px rgba(25, 30, 59, 0.08)",
+    "boxShadowSecondary": "0 4px 16px rgba(25, 30, 59, 0.12)"
+  },
+  "components": {
+    "Button": {
+      "borderRadius": 8,
+      "fontWeight": 600,
+      "primaryShadow": "none"
+    },
+    "Card": {
+      "borderRadiusLG": 10
+    },
+    "Input": {
+      "activeBorderColor": "#1668E3",
+      "hoverBorderColor": "#1668E3"
+    },
+    "Select": {
+      "optionSelectedBg": "#E8F1FD"
+    },
+    "Table": {
+      "headerBg": "#EFF3F7",
+      "headerColor": "#191E3B",
+      "rowHoverBg": "#F4F8FE"
+    },
+    "Tooltip": {
+      "colorBgSpotlight": "#191E3B"
+    }
+  }
+}

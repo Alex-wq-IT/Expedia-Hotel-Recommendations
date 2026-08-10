@@ -1,0 +1,929 @@
+{
+  "manifest_version": 1,
+  "build_timestamp": "2026-08-09T14:15:57+00:00",
+  "architecture": "RAW -> STAGING -> CORE",
+  "raw_immutable": true,
+  "staging": {
+    "tables": [
+      {
+        "table_name": "staging.interaction",
+        "grain": "one source interaction row",
+        "row_count": 40198536,
+        "parquet_path": "data/derived/staging/interaction.parquet"
+      },
+      {
+        "table_name": "staging.destinations",
+        "grain": "one source destination row",
+        "row_count": 62106,
+        "parquet_path": "data/derived/staging/destinations.parquet"
+      }
+    ],
+    "duplicates_flagged": 1922,
+    "duplicates_removed_in_core": 969
+  },
+  "mapping_checks": {
+    "user_location_violations": 985538,
+    "site_platform_violations": 0,
+    "hotel_market_violations": 57,
+    "destination_type_violations": 0,
+    "dim_user_location_created": true
+  },
+  "distance": {
+    "minimum_support": 5,
+    "holdout_modulus": 10,
+    "used_levels": [
+      "city_destination",
+      "city_market",
+      "region_destination",
+      "region_market"
+    ],
+    "raw_missing_rows": 14371504,
+    "final_missing_rows": 9132755,
+    "imputed_rows": 5238749,
+    "validation": [
+      {
+        "imputation_level": "region_market",
+        "min_support": 5,
+        "holdout_rows": 2583160,
+        "covered_rows": 2567747,
+        "coverage_pct": 99.40332770714939,
+        "mae": 77.36576947181644,
+        "median_absolute_error": 15.482700000000008,
+        "p90_absolute_error": 143.0035,
+        "average_support": 23098.237257019482
+      },
+      {
+        "imputation_level": "region_destination",
+        "min_support": 50,
+        "holdout_rows": 2583160,
+        "covered_rows": 2206028,
+        "coverage_pct": 85.40036234689295,
+        "mae": 75.01406027652394,
+        "median_absolute_error": 15.181799999999953,
+        "p90_absolute_error": 145.50262999999987,
+        "average_support": 11688.184038008583
+      },
+      {
+        "imputation_level": "region_market",
+        "min_support": 10,
+        "holdout_rows": 2583160,
+        "covered_rows": 2551431,
+        "coverage_pct": 98.77169823007479,
+        "mae": 77.3289031660853,
+        "median_absolute_error": 15.579399999999993,
+        "p90_absolute_error": 143.24749999999995,
+        "average_support": 23245.902266218447
+      },
+      {
+        "imputation_level": "city_destination",
+        "min_support": 100,
+        "holdout_rows": 2583160,
+        "covered_rows": 1059897,
+        "coverage_pct": 41.03102401709534,
+        "mae": 29.667311791051535,
+        "median_absolute_error": 0.7019000000000233,
+        "p90_absolute_error": 7.905140000000039,
+        "average_support": 1701.4837253053834
+      },
+      {
+        "imputation_level": "region_destination",
+        "min_support": 3,
+        "holdout_rows": 2583160,
+        "covered_rows": 2529008,
+        "coverage_pct": 97.90365289025844,
+        "mae": 73.35195634626302,
+        "median_absolute_error": 13.56555000000003,
+        "p90_absolute_error": 140.70704500000005,
+        "average_support": 10198.108849398657
+      },
+      {
+        "imputation_level": "country_hotel_country",
+        "min_support": 10,
+        "holdout_rows": 2583160,
+        "covered_rows": 2582863,
+        "coverage_pct": 99.98850245435823,
+        "mae": 586.901013190775,
+        "median_absolute_error": 387.27639999999997,
+        "p90_absolute_error": 1480.0369500000006,
+        "average_support": 6084183.112238241
+      },
+      {
+        "imputation_level": "city_market",
+        "min_support": 5,
+        "holdout_rows": 2583160,
+        "covered_rows": 2398734,
+        "coverage_pct": 92.86044999148329,
+        "mae": 34.43370654507777,
+        "median_absolute_error": 0.9623999999998887,
+        "p90_absolute_error": 12.27539999999999,
+        "average_support": 1679.3660305811316
+      },
+      {
+        "imputation_level": "country_destination",
+        "min_support": 5,
+        "holdout_rows": 2583160,
+        "covered_rows": 2567236,
+        "coverage_pct": 99.38354573468155,
+        "mae": 473.72275261769437,
+        "median_absolute_error": 270.23514999999963,
+        "p90_absolute_error": 1253.2429000000002,
+        "average_support": 78865.68406099011
+      },
+      {
+        "imputation_level": "city_destination",
+        "min_support": 50,
+        "holdout_rows": 2583160,
+        "covered_rows": 1322684,
+        "coverage_pct": 51.204106598120134,
+        "mae": 30.842409926331655,
+        "median_absolute_error": 0.7011000000002241,
+        "p90_absolute_error": 8.120640000000268,
+        "average_support": 1377.6440049172743
+      },
+      {
+        "imputation_level": "city_market",
+        "min_support": 10,
+        "holdout_rows": 2583160,
+        "covered_rows": 2261090,
+        "coverage_pct": 87.5319376267827,
+        "mae": 34.86198149253257,
+        "median_absolute_error": 0.9751999999999725,
+        "p90_absolute_error": 12.211610000000498,
+        "average_support": 1781.17898535662
+      },
+      {
+        "imputation_level": "country_destination",
+        "min_support": 10,
+        "holdout_rows": 2583160,
+        "covered_rows": 2555419,
+        "coverage_pct": 98.92608278232862,
+        "mae": 474.8813545351035,
+        "median_absolute_error": 271.84809999999993,
+        "p90_absolute_error": 1254.5622199999998,
+        "average_support": 79230.34994613408
+      },
+      {
+        "imputation_level": "region_destination",
+        "min_support": 5,
+        "holdout_rows": 2583160,
+        "covered_rows": 2498293,
+        "coverage_pct": 96.7146053670698,
+        "mae": 73.69636588508637,
+        "median_absolute_error": 13.776949999999943,
+        "p90_absolute_error": 141.26829999999995,
+        "average_support": 10323.445705928008
+      },
+      {
+        "imputation_level": "country_market",
+        "min_support": 100,
+        "holdout_rows": 2583160,
+        "covered_rows": 2558904,
+        "coverage_pct": 99.06099506031373,
+        "mae": 483.3463968647327,
+        "median_absolute_error": 285.4735,
+        "p90_absolute_error": 1267.7830000000001,
+        "average_support": 169238.73600533666
+      },
+      {
+        "imputation_level": "country_hotel_country",
+        "min_support": 1,
+        "holdout_rows": 2583160,
+        "covered_rows": 2583136,
+        "coverage_pct": 99.99907090540269,
+        "mae": 586.8485879563889,
+        "median_absolute_error": 387.23285,
+        "p90_absolute_error": 1479.9896999999999,
+        "average_support": 6083540.102882697
+      },
+      {
+        "imputation_level": "city_market",
+        "min_support": 100,
+        "holdout_rows": 2583160,
+        "covered_rows": 1504499,
+        "coverage_pct": 58.24257885690395,
+        "mae": 34.165064996852635,
+        "median_absolute_error": 0.9560999999998785,
+        "p90_absolute_error": 11.214199999999892,
+        "average_support": 2655.966763686782
+      },
+      {
+        "imputation_level": "region_market",
+        "min_support": 3,
+        "holdout_rows": 2583160,
+        "covered_rows": 2574350,
+        "coverage_pct": 99.65894485823564,
+        "mae": 77.342257845067,
+        "median_absolute_error": 15.43510000000009,
+        "p90_absolute_error": 142.90621000000027,
+        "average_support": 23039.001098141278
+      },
+      {
+        "imputation_level": "country_destination",
+        "min_support": 100,
+        "holdout_rows": 2583160,
+        "covered_rows": 2451602,
+        "coverage_pct": 94.90709054026851,
+        "mae": 482.1172623715397,
+        "median_absolute_error": 281.65587500000004,
+        "p90_absolute_error": 1264.3602,
+        "average_support": 82583.46053152184
+      },
+      {
+        "imputation_level": "country_hotel_country",
+        "min_support": 50,
+        "holdout_rows": 2583160,
+        "covered_rows": 2581678,
+        "coverage_pct": 99.9426284086158,
+        "mae": 587.1043275520279,
+        "median_absolute_error": 387.3833500000001,
+        "p90_absolute_error": 1480.3257750000005,
+        "average_support": 6086975.762346814
+      },
+      {
+        "imputation_level": "city_destination",
+        "min_support": 20,
+        "holdout_rows": 2583160,
+        "covered_rows": 1684076,
+        "coverage_pct": 65.19441304448814,
+        "mae": 31.19369761890217,
+        "median_absolute_error": 0.6836000000001832,
+        "p90_absolute_error": 8.122749999999996,
+        "average_support": 1088.9227606117538
+      },
+      {
+        "imputation_level": "region_destination",
+        "min_support": 1,
+        "holdout_rows": 2583160,
+        "covered_rows": 2565333,
+        "coverage_pct": 99.30987627556945,
+        "mae": 72.91908150162175,
+        "median_absolute_error": 13.26680000000033,
+        "p90_absolute_error": 139.84848000000002,
+        "average_support": 10053.725071949724
+      },
+      {
+        "imputation_level": "country_hotel_country",
+        "min_support": 5,
+        "holdout_rows": 2583160,
+        "covered_rows": 2583017,
+        "coverage_pct": 99.994464144691,
+        "mae": 586.8735966889743,
+        "median_absolute_error": 387.2536,
+        "p90_absolute_error": 1480.0118900000002,
+        "average_support": 6083820.37241257
+      },
+      {
+        "imputation_level": "city_destination",
+        "min_support": 3,
+        "holdout_rows": 2583160,
+        "covered_rows": 2311937,
+        "coverage_pct": 89.50034066801902,
+        "mae": 28.62709275315475,
+        "median_absolute_error": 0.6204000000000178,
+        "p90_absolute_error": 7.587469999999856,
+        "average_support": 795.6663624484577
+      },
+      {
+        "imputation_level": "region_destination",
+        "min_support": 100,
+        "holdout_rows": 2583160,
+        "covered_rows": 2061712,
+        "coverage_pct": 79.8135616841388,
+        "mae": 75.129448970152,
+        "median_absolute_error": 15.619199999999978,
+        "p90_absolute_error": 148.01689000000002,
+        "average_support": 12501.27616272302
+      },
+      {
+        "imputation_level": "country_market",
+        "min_support": 5,
+        "holdout_rows": 2583160,
+        "covered_rows": 2581903,
+        "coverage_pct": 99.95133867046563,
+        "mae": 480.69226725343776,
+        "median_absolute_error": 282.48199999999997,
+        "p90_absolute_error": 1263.72142,
+        "average_support": 167731.64133393083
+      },
+      {
+        "imputation_level": "city_destination",
+        "min_support": 1,
+        "holdout_rows": 2583160,
+        "covered_rows": 2486573,
+        "coverage_pct": 96.26089750538101,
+        "mae": 27.604402738246723,
+        "median_absolute_error": 0.5894999999999868,
+        "p90_absolute_error": 7.375039999999731,
+        "average_support": 739.8885047814804
+      },
+      {
+        "imputation_level": "region_destination",
+        "min_support": 20,
+        "holdout_rows": 2583160,
+        "covered_rows": 2355633,
+        "coverage_pct": 91.19191223153037,
+        "mae": 74.60499964338672,
+        "median_absolute_error": 14.575800000000008,
+        "p90_absolute_error": 143.16668,
+        "average_support": 10947.974343626533
+      },
+      {
+        "imputation_level": "country_market",
+        "min_support": 10,
+        "holdout_rows": 2583160,
+        "covered_rows": 2580450,
+        "coverage_pct": 99.89508973505319,
+        "mae": 480.9022574907876,
+        "median_absolute_error": 282.72045,
+        "p90_absolute_error": 1264.092695,
+        "average_support": 167826.08371485592
+      },
+      {
+        "imputation_level": "city_market",
+        "min_support": 3,
+        "holdout_rows": 2583160,
+        "covered_rows": 2467926,
+        "coverage_pct": 95.5390297155422,
+        "mae": 34.14512100077173,
+        "median_absolute_error": 0.9544000000000779,
+        "p90_absolute_error": 12.295600000000036,
+        "average_support": 1632.3801041846473
+      },
+      {
+        "imputation_level": "region_market",
+        "min_support": 100,
+        "holdout_rows": 2583160,
+        "covered_rows": 2370784,
+        "coverage_pct": 91.7784419083603,
+        "mae": 76.41032167367389,
+        "median_absolute_error": 16.215449999999976,
+        "p90_absolute_error": 145.87914000000023,
+        "average_support": 25013.499735108722
+      },
+      {
+        "imputation_level": "country_destination",
+        "min_support": 3,
+        "holdout_rows": 2583160,
+        "covered_rows": 2573155,
+        "coverage_pct": 99.61268368974434,
+        "mae": 473.09012672700976,
+        "median_absolute_error": 269.3528,
+        "p90_absolute_error": 1252.6429400000002,
+        "average_support": 78684.27820516059
+      },
+      {
+        "imputation_level": "city_market",
+        "min_support": 20,
+        "holdout_rows": 2583160,
+        "covered_rows": 2073922,
+        "coverage_pct": 80.28623856052278,
+        "mae": 35.34825402237896,
+        "median_absolute_error": 0.9812000000001717,
+        "p90_absolute_error": 12.0562,
+        "average_support": 1940.6515640414634
+      },
+      {
+        "imputation_level": "region_market",
+        "min_support": 1,
+        "holdout_rows": 2583160,
+        "covered_rows": 2580573,
+        "coverage_pct": 99.89985134486443,
+        "mae": 77.325174980556,
+        "median_absolute_error": 15.392500000000155,
+        "p90_absolute_error": 142.79340000000002,
+        "average_support": 22983.44666785245
+      },
+      {
+        "imputation_level": "country_destination",
+        "min_support": 20,
+        "holdout_rows": 2583160,
+        "covered_rows": 2536805,
+        "coverage_pct": 98.20549249756112,
+        "mae": 476.38886315248527,
+        "median_absolute_error": 274.03520000000003,
+        "p90_absolute_error": 1256.5748999999998,
+        "average_support": 79811.60399518292
+      },
+      {
+        "imputation_level": "city_destination",
+        "min_support": 5,
+        "holdout_rows": 2583160,
+        "covered_rows": 2176309,
+        "coverage_pct": 84.24987224949287,
+        "mae": 29.410859072838583,
+        "median_absolute_error": 0.637749999999869,
+        "p90_absolute_error": 7.741920000000171,
+        "average_support": 845.0364217581235
+      },
+      {
+        "imputation_level": "country_market",
+        "min_support": 3,
+        "holdout_rows": 2583160,
+        "covered_rows": 2582472,
+        "coverage_pct": 99.97336595487697,
+        "mae": 480.6112637430155,
+        "median_absolute_error": 282.3992,
+        "p90_absolute_error": 1263.6309649999996,
+        "average_support": 167694.68553231168
+      },
+      {
+        "imputation_level": "country_hotel_country",
+        "min_support": 20,
+        "holdout_rows": 2583160,
+        "covered_rows": 2582553,
+        "coverage_pct": 99.9765016491429,
+        "mae": 586.9601726782817,
+        "median_absolute_error": 387.292,
+        "p90_absolute_error": 1480.145580000001,
+        "average_support": 6084913.433050938
+      },
+      {
+        "imputation_level": "city_market",
+        "min_support": 1,
+        "holdout_rows": 2583160,
+        "covered_rows": 2544350,
+        "coverage_pct": 98.49757661159201,
+        "mae": 33.81549556008433,
+        "median_absolute_error": 0.9421000000002095,
+        "p90_absolute_error": 12.325509999999904,
+        "average_support": 1583.3934395818185
+      },
+      {
+        "imputation_level": "region_market",
+        "min_support": 20,
+        "holdout_rows": 2583160,
+        "covered_rows": 2521303,
+        "coverage_pct": 97.60537481224547,
+        "mae": 77.27083810712085,
+        "median_absolute_error": 15.727899999999977,
+        "p90_absolute_error": 143.65498000000014,
+        "average_support": 23523.50471165108
+      },
+      {
+        "imputation_level": "country_destination",
+        "min_support": 1,
+        "holdout_rows": 2583160,
+        "covered_rows": 2579891,
+        "coverage_pct": 99.87344957339073,
+        "mae": 472.28586658104496,
+        "median_absolute_error": 268.3705,
+        "p90_absolute_error": 1251.8403000000003,
+        "average_support": 78478.84031185813
+      },
+      {
+        "imputation_level": "country_market",
+        "min_support": 50,
+        "holdout_rows": 2583160,
+        "covered_rows": 2570281,
+        "coverage_pct": 99.50142461171588,
+        "mae": 482.15351676896506,
+        "median_absolute_error": 284.25890000000004,
+        "p90_absolute_error": 1265.9301000000005,
+        "average_support": 168489.95252853676
+      },
+      {
+        "imputation_level": "region_destination",
+        "min_support": 10,
+        "holdout_rows": 2583160,
+        "covered_rows": 2438088,
+        "coverage_pct": 94.38393285743044,
+        "mae": 74.19890277797602,
+        "median_absolute_error": 14.151400000000365,
+        "p90_absolute_error": 141.9916,
+        "average_support": 10578.198263967502
+      },
+      {
+        "imputation_level": "region_market",
+        "min_support": 50,
+        "holdout_rows": 2583160,
+        "covered_rows": 2452422,
+        "coverage_pct": 94.93883460567677,
+        "mae": 76.93611605290548,
+        "median_absolute_error": 15.98722500000008,
+        "p90_absolute_error": 144.61804999999998,
+        "average_support": 24183.264421865406
+      },
+      {
+        "imputation_level": "country_market",
+        "min_support": 20,
+        "holdout_rows": 2583160,
+        "covered_rows": 2577756,
+        "coverage_pct": 99.79079886650459,
+        "mae": 481.26865839542324,
+        "median_absolute_error": 283.18809999999996,
+        "p90_absolute_error": 1264.8175999999999,
+        "average_support": 168001.46291503153
+      },
+      {
+        "imputation_level": "country_hotel_country",
+        "min_support": 3,
+        "holdout_rows": 2583160,
+        "covered_rows": 2583081,
+        "coverage_pct": 99.99694173028384,
+        "mae": 586.8603906803985,
+        "median_absolute_error": 387.243,
+        "p90_absolute_error": 1480.0086999999999,
+        "average_support": 6083669.636033481
+      },
+      {
+        "imputation_level": "city_destination",
+        "min_support": 10,
+        "holdout_rows": 2583160,
+        "covered_rows": 1945846,
+        "coverage_pct": 75.32812524195172,
+        "mae": 30.38503350948645,
+        "median_absolute_error": 0.6630499999998847,
+        "p90_absolute_error": 7.971099999999865,
+        "average_support": 944.3160065082232
+      },
+      {
+        "imputation_level": "city_market",
+        "min_support": 50,
+        "holdout_rows": 2583160,
+        "covered_rows": 1766661,
+        "coverage_pct": 68.39146626612366,
+        "mae": 35.06628822683019,
+        "median_absolute_error": 0.9750999999999976,
+        "p90_absolute_error": 11.661600000000007,
+        "average_support": 2272.4924136549116
+      },
+      {
+        "imputation_level": "country_destination",
+        "min_support": 50,
+        "holdout_rows": 2583160,
+        "covered_rows": 2498126,
+        "coverage_pct": 96.70814041716348,
+        "mae": 479.21875604062393,
+        "median_absolute_error": 277.8623,
+        "p90_absolute_error": 1260.6245,
+        "average_support": 81046.82626777032
+      },
+      {
+        "imputation_level": "country_market",
+        "min_support": 1,
+        "holdout_rows": 2583160,
+        "covered_rows": 2582971,
+        "coverage_pct": 99.99268338004615,
+        "mae": 480.5341133522222,
+        "median_absolute_error": 282.3073,
+        "p90_absolute_error": 1263.5057500000003,
+        "average_support": 167662.28915423364
+      },
+      {
+        "imputation_level": "country_hotel_country",
+        "min_support": 100,
+        "holdout_rows": 2583160,
+        "covered_rows": 2580411,
+        "coverage_pct": 99.89357995633256,
+        "mae": 587.3044757930477,
+        "median_absolute_error": 387.5225,
+        "p90_absolute_error": 1480.6136999999999,
+        "average_support": 6089964.473647027
+      }
+    ]
+  },
+  "validation": {
+    "pk_checks": {
+      "dim_date": {
+        "row_count": 6908,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_hour": {
+        "row_count": 24,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_user": {
+        "row_count": 1198786,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_user_location": {
+        "row_count": 68576,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_platform": {
+        "row_count": 54,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_destination": {
+        "row_count": 65781,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_destination_type": {
+        "row_count": 10,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_hotel_market": {
+        "row_count": 2225,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_hotel_cluster": {
+        "row_count": 100,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "dim_search_params": {
+        "row_count": 7246,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "fct_event": {
+        "row_count": 40197567,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "fct_booking": {
+        "row_count": 3000689,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      },
+      "ref_distance_stats": {
+        "row_count": 4619219,
+        "null_pk": 0,
+        "duplicate_pk_groups": 0,
+        "pass": true
+      }
+    },
+    "fk_orphan_counts": {
+      "event_user": 0,
+      "event_user_location": 0,
+      "event_platform": 0,
+      "event_destination": 0,
+      "event_hotel_market": 0,
+      "event_hotel_cluster": 0,
+      "event_search_params": 0,
+      "event_date": 0,
+      "event_hour": 0,
+      "event_checkin_date": 0,
+      "event_checkout_date": 0
+    },
+    "fanout_check": {
+      "core_base_rows": 40197567,
+      "fct_event_rows": 40197567,
+      "pass": true
+    },
+    "all_fk_checks_pass": true,
+    "all_pk_checks_pass": true,
+    "quality_counts_staging": {
+      "rows": 40198536,
+      "q_missing_checkin": 47105,
+      "q_missing_checkout": 47101,
+      "q_checkin_before_event": 9403,
+      "q_checkout_before_checkin": 2982,
+      "q_same_day_stay": 146606,
+      "q_zero_adults": 72452,
+      "q_zero_rooms": 1399,
+      "q_zero_travelers": 70024,
+      "q_extreme_future_date": 8,
+      "q_exact_duplicate": 1922
+    }
+  },
+  "tables": [
+    {
+      "table_name": "core.dim_date",
+      "layer": "core",
+      "grain": "one row per valid calendar day",
+      "primary_key": [
+        "date_key"
+      ],
+      "foreign_keys": [],
+      "row_count": 6908,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per valid calendar day",
+      "parquet_path": "data/derived/core/dim_date.parquet"
+    },
+    {
+      "table_name": "core.dim_hour",
+      "layer": "core",
+      "grain": "one row per hour of day",
+      "primary_key": [
+        "hour_key"
+      ],
+      "foreign_keys": [],
+      "row_count": 24,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per hour of day",
+      "parquet_path": "data/derived/core/dim_hour.parquet"
+    },
+    {
+      "table_name": "core.dim_user",
+      "layer": "core",
+      "grain": "one row per user",
+      "primary_key": [
+        "user_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 1198786,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per user",
+      "parquet_path": "data/derived/core/dim_user.parquet"
+    },
+    {
+      "table_name": "core.dim_user_location",
+      "layer": "core",
+      "grain": "one row per user location combination",
+      "primary_key": [
+        "user_location_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 68576,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per user location combination",
+      "parquet_path": "data/derived/core/dim_user_location.parquet"
+    },
+    {
+      "table_name": "core.dim_platform",
+      "layer": "core",
+      "grain": "one row per site_name and posa_continent combination",
+      "primary_key": [
+        "platform_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 54,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per site_name and posa_continent combination",
+      "parquet_path": "data/derived/core/dim_platform.parquet"
+    },
+    {
+      "table_name": "core.dim_destination",
+      "layer": "core",
+      "grain": "one row per destination ID",
+      "primary_key": [
+        "destination_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 65781,
+      "source_tables": [
+        "staging.interaction",
+        "staging.destinations"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per destination ID",
+      "parquet_path": "data/derived/core/dim_destination.parquet"
+    },
+    {
+      "table_name": "core.dim_destination_type",
+      "layer": "core",
+      "grain": "one row per destination type ID",
+      "primary_key": [
+        "destination_type_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 10,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per destination type ID",
+      "parquet_path": "data/derived/core/dim_destination_type.parquet"
+    },
+    {
+      "table_name": "core.dim_hotel_market",
+      "layer": "core",
+      "grain": "one row per hotel market attribute combination",
+      "primary_key": [
+        "hotel_market_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 2225,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per hotel market attribute combination",
+      "parquet_path": "data/derived/core/dim_hotel_market.parquet"
+    },
+    {
+      "table_name": "core.dim_hotel_cluster",
+      "layer": "core",
+      "grain": "one row per hotel cluster",
+      "primary_key": [
+        "hotel_cluster_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 100,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per hotel cluster",
+      "parquet_path": "data/derived/core/dim_hotel_cluster.parquet"
+    },
+    {
+      "table_name": "core.dim_search_params",
+      "layer": "core",
+      "grain": "one row per search parameter combination",
+      "primary_key": [
+        "search_params_id"
+      ],
+      "foreign_keys": [],
+      "row_count": 7246,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one row per search parameter combination",
+      "parquet_path": "data/derived/core/dim_search_params.parquet"
+    },
+    {
+      "table_name": "core.fct_event",
+      "layer": "core",
+      "grain": "one unique aggregated source log row after exact deduplication",
+      "primary_key": [
+        "event_id"
+      ],
+      "foreign_keys": [
+        "user_id→dim_user.user_id",
+        "platform_id→dim_platform.platform_id",
+        "destination_id→dim_destination.destination_id",
+        "hotel_market_id→dim_hotel_market.hotel_market_id",
+        "hotel_cluster_id→dim_hotel_cluster.hotel_cluster_id",
+        "search_params_id→dim_search_params.search_params_id",
+        "event_date_key/checkin_date_key/checkout_date_key→dim_date.date_key",
+        "event_hour_key→dim_hour.hour_key"
+      ],
+      "row_count": 40197567,
+      "source_tables": [
+        "staging.interaction"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one unique aggregated source log row after exact deduplication",
+      "parquet_path": "data/derived/core/fct_event.parquet"
+    },
+    {
+      "table_name": "core.fct_booking",
+      "layer": "core",
+      "grain": "one confirmed booking log event",
+      "primary_key": [
+        "booking_id"
+      ],
+      "foreign_keys": [
+        "event_id→fct_event.event_id"
+      ],
+      "row_count": 3000689,
+      "source_tables": [
+        "core.fct_event"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one confirmed booking log event",
+      "parquet_path": "data/derived/core/fct_booking.parquet"
+    },
+    {
+      "table_name": "core.ref_distance_stats",
+      "layer": "core",
+      "grain": "one median estimator per distance hierarchy group",
+      "primary_key": [
+        "imputation_level",
+        "origin_city",
+        "origin_region",
+        "origin_country",
+        "destination_id",
+        "hotel_market",
+        "hotel_country"
+      ],
+      "foreign_keys": [],
+      "row_count": 4619219,
+      "source_tables": [
+        "staging.interaction",
+        "staging.destinations"
+      ],
+      "build_timestamp": "2026-08-09T14:15:57+00:00",
+      "description": "one median estimator per distance hierarchy group",
+      "parquet_path": "data/derived/core/ref_distance_stats.parquet"
+    }
+  ]
+}

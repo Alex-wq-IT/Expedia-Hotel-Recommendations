@@ -1,0 +1,88 @@
+/*
+ * Expedia Hotel Analytics dashboard CSS template for Superset 6.x.
+ * Apply this template to a dashboard from Edit dashboard > Properties > CSS.
+ * The global light theme handles controls, typography, navigation and palettes;
+ * this file completes the dashboard canvas and chart-card treatment.
+ */
+
+.dashboard {
+  background: #f8f9fa;
+  color: #191e3b;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard .dashboard-component-chart-holder,
+.dashboard .dashboard-component-tabs,
+.dashboard .dashboard-component-header {
+  background: #ffffff;
+  border: 1px solid #dfe0e4;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.dashboard .dashboard-component-chart-holder {
+  padding: 16px;
+}
+
+.dashboard .slice-header {
+  padding: 0 0 12px;
+}
+
+.dashboard .slice-header .header-title,
+.dashboard .slice-header .header-title a {
+  color: #191e3b;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.dashboard .slice-header .header-description,
+.dashboard .slice-header .header-subtitle {
+  color: #676a7d;
+}
+
+.dashboard .dashboard-component-tabs .ant-tabs-nav {
+  margin: 0;
+  padding: 0 16px;
+}
+
+.dashboard .dashboard-component-tabs .ant-tabs-tab {
+  color: #676a7d;
+  font-weight: 600;
+}
+
+.dashboard .dashboard-component-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #1668e3;
+}
+
+.dashboard .dashboard-component-tabs .ant-tabs-ink-bar {
+  background: #1668e3;
+}
+
+.dashboard .filter-bar,
+.dashboard .native-filter-control {
+  background: #ffffff;
+}
+
+.dashboard .filter-card {
+  border: 1px solid #dfe0e4;
+  border-radius: 8px;
+}
+
+.dashboard .ant-table-thead > tr > th {
+  background: #eff3f7;
+  color: #191e3b;
+  font-weight: 650;
+}
+
+.dashboard .ant-table-tbody > tr > td {
+  border-bottom-color: #dfe0e4;
+}
+
+.dashboard .ant-table-tbody > tr:hover > td {
+  background: #f4f8fe;
+}
+
+.dashboard .ant-empty-description,
+.dashboard .no-data-container {
+  color: #676a7d;
+}

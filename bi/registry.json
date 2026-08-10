@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "clickhouse": {
+    "database": "expedia",
+    "table_prefix": "mart_",
+    "order_by": "tuple()"
+  },
+  "superset": {
+    "database_name": "Expedia ClickHouse",
+    "dashboard_title": "Expedia Hotel Analytics",
+    "slug": "expedia-hotel-analytics"
+  },
+  "marts": [
+    {"name": "mart_product_daily", "grain": "event date", "time_column": "date_key", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
+    {"name": "mart_session_daily", "grain": "session start date", "time_column": "date_key", "metrics": ["sum__active_users", "sum__sessions", "sum__booking_sessions", "avg__session_booking_rate"]},
+    {"name": "mart_travel_calendar_daily", "grain": "calendar date", "time_column": "date_key", "metrics": ["sum__events_on_date", "sum__bookings_made_on_date", "sum__checkins_on_date"]},
+    {"name": "mart_channel_platform", "grain": "month x channel x platform x mobile", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
+    {"name": "mart_destination_performance", "grain": "month x destination x hotel market", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
+    {"name": "mart_user_360", "grain": "user", "time_column": null, "metrics": ["sum__row_events", "sum__weighted_events", "sum__bookings", "avg__booking_frequency"]},
+    {"name": "mart_origin_destination", "grain": "month x origin x destination", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
+    {"name": "mart_trip_profile", "grain": "month x lead bucket x stay bucket x party segment", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
+    {"name": "mart_retention_cohort", "grain": "first booking month x months since first booking", "time_column": "first_booking_month", "metrics": ["sum__cohort_users", "sum__active_users", "avg__retention_rate"]},
+    {"name": "mart_booking_frequency", "grain": "booking-count bucket", "time_column": null, "metrics": ["sum__users", "sum__booking_count", "avg__share_of_users"]},
+    {"name": "mart_data_quality_daily", "grain": "event date", "time_column": "date_key", "metrics": ["sum__rows", "sum__quality_issue_rows", "avg__quality_issue_rate"]},
+    {"name": "mart_distance_quality", "grain": "imputation level x support threshold", "time_column": null, "metrics": ["sum__rows", "avg__coverage_pct", "avg__mae"]}
+  ],
+  "dashboard_charts": [
+    {"name": "Product bookings by day", "mart": "mart_product_daily", "viz_type": "echarts_timeseries_line", "groupby": ["date_key"], "metrics": ["sum__bookings"]},
+    {"name": "Product conversion by day", "mart": "mart_product_daily", "viz_type": "echarts_timeseries_line", "groupby": ["date_key"], "metrics": ["avg__booking_row_rate"]},
+    {"name": "Bookings by channel and platform", "mart": "mart_channel_platform", "viz_type": "echarts_timeseries_bar", "groupby": ["channel"], "metrics": ["sum__bookings"]},
+    {"name": "Top destinations by bookings", "mart": "mart_destination_performance", "viz_type": "dist_bar", "groupby": ["destination_id"], "metrics": ["sum__bookings"]}
+  ]
+}
