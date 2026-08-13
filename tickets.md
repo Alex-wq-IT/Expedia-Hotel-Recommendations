@@ -4,7 +4,7 @@ This file contains only concrete, actionable implementation work from the chat. 
 
 ## EXP-001 — Make `build_core.py` work on a fresh project setup
 
-**Type:** Bug / reproducibility  
+**Type:** Bug / reproducibility
 **Source messages:** 570607–570608
 
 ### Problem
@@ -34,7 +34,7 @@ can fail with `schema "raw" does not exist` even when the Parquet files are vali
 
 ## EXP-002 — Fix `temp_directory` path handling in `build_analytics.py`
 
-**Type:** Bug / Python compatibility  
+**Type:** Bug / Python compatibility
 **Source messages:** 570609–570612
 
 ### Problem
@@ -65,7 +65,7 @@ PRAGMA temp_directory = sql_literal(tmp)
 
 ## EXP-003 — Install Superset PostgreSQL and ClickHouse drivers inside Superset's virtual environment
 
-**Type:** Infrastructure / dependency bug  
+**Type:** Infrastructure / dependency bug
 **Source messages:** 570613–570616, 570622
 
 ### Problem
@@ -95,7 +95,7 @@ The source proposal uses `uv pip install` after activating `/app/.venv`.
 
 ## EXP-004 — Remove the Makefile dependency on the `python` executable name
 
-**Type:** Build portability  
+**Type:** Build portability
 **Source messages:** 570617–570619, 570622
 
 ### Problem
@@ -124,7 +124,7 @@ Affected flows include at least:
 
 ## EXP-005 — Fix ClickHouse authentication for host-side BI publication
 
-**Type:** Infrastructure / connectivity  
+**Type:** Infrastructure / connectivity
 **Source messages:** 570622
 
 ### Problem
@@ -153,7 +153,7 @@ The reported configuration used the `default` ClickHouse user with an empty pass
 
 ## EXP-006 — Preserve the Superset HTTP session for CSRF-protected API calls
 
-**Type:** BI publishing bug  
+**Type:** BI publishing bug
 **Source messages:** 570622–570623
 
 ### Problem
@@ -181,7 +181,7 @@ In `tools/publish_bi.py`:
 
 ## EXP-007 — Use the Docker service hostname for Superset-to-ClickHouse connections
 
-**Type:** Docker networking / BI integration  
+**Type:** Docker networking / BI integration
 **Source messages:** 570623
 
 ### Problem
@@ -211,7 +211,7 @@ In `provision_superset()`, build the Superset database URI using configurable va
 
 ## EXP-008 — Update Superset dataset create/update payloads for the current API
 
-**Type:** API compatibility  
+**Type:** API compatibility
 **Source messages:** 570623
 
 ### Problem
@@ -246,7 +246,7 @@ The API expects different payloads for dataset creation and update.
 
 ## EXP-009 — Publish Superset metrics through the supported dataset API and make the operation idempotent
 
-**Type:** API compatibility / idempotency  
+**Type:** API compatibility / idempotency
 **Source messages:** 570623–570624
 
 ### Problem
@@ -280,7 +280,7 @@ One or more metrics already exist
 
 ## EXP-010 — Rewrite the project setup and BI deployment instructions around the actual working sequence
 
-**Type:** Documentation / developer experience  
+**Type:** Documentation / developer experience
 **Source messages:** 570608, 570615–570616, 570625
 
 ### Problem
@@ -308,7 +308,7 @@ Create a single reproducible setup/runbook covering at least:
 
 ## EXP-011 — Investigate and fix dashboard creation after the BI publication flow
 
-**Type:** Bug / BI end-to-end  
+**Type:** Bug / BI end-to-end
 **Source message:** 570627
 
 ### Problem
@@ -328,7 +328,7 @@ Trace the final dashboard-generation phase of the BI publisher and identify the 
 
 ## EXP-012 — Restrict valid project dates to 2013–2016
 
-**Type:** Data quality / validation  
+**Type:** Data quality / validation
 **Source:** Team decision based on Sonya's date-range feedback
 
 ### Problem
@@ -351,7 +351,7 @@ The current date-validation logic allows a much wider year range than is useful 
 
 ## EXP-013 — Add a dedicated root-level `eda/` folder
 
-**Type:** Repository structure / developer experience  
+**Type:** Repository structure / developer experience
 **Source:** Team decision based on Sonya's repository-organization suggestion
 
 ### Problem
@@ -373,7 +373,7 @@ EDA materials do not currently have an explicit, standardized location in the re
 
 ## EXP-014 — Add the ready marts download link to README
 
-**Type:** Documentation / data access  
+**Type:** Documentation / data access
 **Source:** Team request
 
 ### Problem

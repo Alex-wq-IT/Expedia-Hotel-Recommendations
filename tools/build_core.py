@@ -1064,7 +1064,7 @@ def main() -> None:
 
         core_schema = f"""# CORE schema
 
-Build timestamp: `{BUILD_TS}`  
+Build timestamp: `{BUILD_TS}`
 Source: immutable `raw.train`, `raw.test`, `raw.destinations`  
 Architecture: `RAW → STAGING → CORE`; no CLEAN/SILVER or MARTS are materialized.
 
@@ -1135,7 +1135,7 @@ STAGING preserves source grain and source values, including NULL distance. It ad
             level_lines.append(f"| {row['distance_imputation_level']} | {int(row['rows']):,} |")
         distance_report = f"""# Distance imputation report
 
-Build timestamp: `{BUILD_TS}`  
+Build timestamp: `{BUILD_TS}`
 Holdout: deterministic 10% of observed distances (`hash(source_dataset, source_row_id) % 10 = 0`)  
 Estimator: group median  
 Selected minimum support: **{MIN_SUPPORT}**

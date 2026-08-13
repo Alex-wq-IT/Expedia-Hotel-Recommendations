@@ -1,6 +1,6 @@
 # Distance imputation report
 
-Build timestamp: `2026-08-13T22:11:07+00:00`  
+Build timestamp: `2026-08-13T22:11:07+00:00`
 Holdout: deterministic 10% of observed distances (`hash(source_dataset, source_row_id) % 10 = 0`)  
 Estimator: group median  
 Selected minimum support: **5**
