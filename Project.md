@@ -12,8 +12,9 @@
 |---|---|
 | [`AGENTS.md`](AGENTS.md) | Обязательные инструкции: SQL-first анализ, зерно данных, метрики, ограничения на запись и работу с raw. Читать перед аналитическими изменениями. |
 | [`data/`](data/) | Данные, DuckDB-каталог и производные Parquet-слои. Raw-источники неизменяемы. |
-| [`docs/`](docs/) | Контракты, схемы, отчёты EDA, проверки CORE, sessionization и marts. |
-| [`notebooks/`](notebooks/) | Воспроизводимые исследовательские и pipeline-ноутбуки. Не использовать для загрузки всего train в pandas. |
+| [`docs/`](docs/) | Контракты, схемы, проверки CORE, sessionization и marts. |
+| [`eda/`](eda/) | Каноническое место для exploratory-ноутбуков и небольших EDA-specific материалов. Generated datasets и большие raw/intermediate-файлы сюда не добавляются. |
+| [`notebooks/`](notebooks/) | Воспроизводимые setup/build pipeline-ноутбуки. Не использовать для загрузки всего train в pandas. |
 | [`tools/`](tools/) | Python-скрипты построения CORE, сессий и MARTS. |
 | [`artifacts/`](artifacts/) | Manifest-файлы сборок, handoff и небольшие результаты проверок. |
 | [`design/`](design/) | Expedia-брендинг, иконки, брендбук и тема для dashboard. |
@@ -73,32 +74,37 @@ Superset / dashboard-прототип
 2. [`docs/dwh_contract.md`](docs/dwh_contract.md) — целевая модель слоёв и правила источников.
 3. [`docs/core_schema.md`](docs/core_schema.md) — зерно и состав CORE.
 4. [`docs/analytics_schema.md`](docs/analytics_schema.md) — session-объекты и marts.
-5. [`docs/full_source_rerun_comparison.md`](docs/full_source_rerun_comparison.md) — результаты полного rerun после обнаружения неполного train.
-6. [`artifacts/core_manifest.json`](artifacts/core_manifest.json) и [`artifacts/analytics_manifest.json`](artifacts/analytics_manifest.json) — машинно-читаемые результаты последних сборок.
+5. [`eda/README.md`](eda/README.md) — exploratory-анализы и правила размещения EDA-материалов.
+6. [`docs/full_source_rerun_comparison.md`](docs/full_source_rerun_comparison.md) — результаты полного rerun после обнаружения неполного train.
+7. [`artifacts/core_manifest.json`](artifacts/core_manifest.json) и [`artifacts/analytics_manifest.json`](artifacts/analytics_manifest.json) — машинно-читаемые результаты последних сборок.
 
 Тематические документы:
 
 - `01_core_review.md` — ревью CORE.
 - `02_sessionization_contract_v1.md` — контракт сессий.
 - `03_marts_draft_v0.md` — черновик витрин.
-- `expedia_eda_staging_report.md` — EDA, риски staging и интерпретация метрик.
+- [`eda/expedia_eda_staging_report.md`](eda/expedia_eda_staging_report.md) — EDA, риски staging и интерпретация метрик.
 - `distance_imputation_report.md` — валидация заполнения расстояния.
 - `analytics_build_report.md` — отчёт о сборке sessionization и marts.
 
-## Скрипты и ноутбуки
+## Скрипты, pipeline-ноутбуки и EDA
 
 Основные скрипты:
 
-- `tools/build_core.py` — строит производные STAGING и CORE из immutable raw views.
+- `tools/build_core.py` — регистрирует обязательные source-aligned RAW views и строит производные STAGING/CORE, не изменяя исходные Parquet.
 - `tools/build_analytics.py` — строит сессии и первые аналитические MARTS на основе CORE.
 
-Основные ноутбуки:
+Setup/build ноутбуки:
 
 - `notebooks/setup_local_analytics.ipynb` — локальная настройка аналитического окружения.
-- `notebooks/expedia_eda_staging_metrics.ipynb` — EDA и staging-метрики.
 - `notebooks/02_build_core.ipynb` — сборка CORE.
-- `notebooks/repeat_bookings_analysis.ipynb` — анализ повторных бронирований.
-- `notebooks/extract_expedia_location_ids.ipynb` — извлечение location ID.
+
+Exploratory-материалы находятся в каноническом корневом каталоге `eda/`:
+
+- `eda/expedia_eda_staging_metrics.ipynb` — EDA и staging-метрики.
+- `eda/repeat_bookings_analysis.ipynb` — анализ повторных бронирований.
+- `eda/extract_expedia_location_ids.ipynb` — извлечение location ID.
+- `eda/expedia_eda_staging_report.md` — EDA-отчёт, риски staging и интерпретация метрик.
 
 ## `design/` и `superset/`
 
@@ -115,7 +121,7 @@ Superset / dashboard-прототип
 - Не придумывать географические названия по encoded ID.
 - Не создавать постоянные marts без явного запроса; повторно используемую логику сначала описывать в документации.
 - Для изменений pipeline обновлять соответствующие manifest/документы и выполнять проверки PK/FK/fan-out.
-- Не считать корень Git-репозиторием: в текущей структуре `.git` обнаружен только внутри `superset/`.
+- Корень `HotelsBooking` — основной Git-репозиторий; `superset/` является отдельным вложенным checkout и исключён из корневого tracking.
 
 ## Текущее состояние по именам артефактов
 

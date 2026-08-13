@@ -32,7 +32,7 @@ Architecture: `RAW → STAGING → CORE`; no CLEAN/SILVER or MARTS are materiali
 
 ## Quality and validity
 
-STAGING preserves source grain and source values, including NULL distance. It adds date parsing, duplicate metadata, and quality flags. CORE keeps the first row of each exact source-payload duplicate group using deterministic `source_row_id` order. Suspicious records are not removed for quality reasons. `lead_days` and `stay_nights` are populated only under their validity flags; same-day stays are excluded from `valid_for_stay_length` because their business meaning is ambiguous.
+STAGING preserves source grain and source values, including NULL distance. It adds date parsing, duplicate metadata, and quality flags. The active project-date range is inclusive from `2013-01-01` through `2016-12-31` for event, check-in, and check-out dates. The legacy `q_extreme_future_date` field flags any present date outside that range. CORE keeps the first row of each exact source-payload duplicate group using deterministic `source_row_id` order. Suspicious records are not removed for quality reasons: out-of-range dates receive no `dim_date` key, and derived date metrics remain NULL. `lead_days` and `stay_nights` are populated only under their validity flags; same-day stays are excluded from `valid_for_stay_length` because their business meaning is ambiguous.
 
 ## Distance
 

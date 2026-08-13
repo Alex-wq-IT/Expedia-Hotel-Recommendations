@@ -76,7 +76,10 @@ def build_session_fragments(con: duckdb.DuckDBPyConnection) -> str:
     eligible_event_count = int(scalar(con, """
         SELECT COUNT(*)
         FROM core.fct_event
-        WHERE source_dataset = 'train' AND user_id IS NOT NULL AND event_ts IS NOT NULL
+        WHERE source_dataset = 'train'
+          AND user_id IS NOT NULL
+          AND event_ts IS NOT NULL
+          AND event_date_key IS NOT NULL
     """))
     core_manifest_path = ARTIFACTS_DIR / "core_manifest.json"
     core_build_timestamp = None
@@ -138,6 +141,7 @@ def build_session_fragments(con: duckdb.DuckDBPyConnection) -> str:
             WHERE e.source_dataset = 'train'
               AND e.user_id IS NOT NULL
               AND e.event_ts IS NOT NULL
+              AND e.event_date_key IS NOT NULL
               AND hash(e.user_id) % {SESSION_BUCKETS} = {bucket}
         ), ordered AS (
             SELECT
@@ -207,6 +211,7 @@ def build_sensitivity(con: duckdb.DuckDBPyConnection) -> dict:
             WHERE source_dataset = 'train'
               AND user_id IS NOT NULL
               AND event_ts IS NOT NULL
+              AND event_date_key IS NOT NULL
               AND hash(user_id) % {SENSITIVITY_SAMPLE_MODULUS} = 0
         ), ordered AS (
             SELECT sampled.*,
@@ -775,7 +780,7 @@ def write_docs_and_manifest(
 
 Build timestamp: `{BUILD_TS}`  
 Session rule: `{SESSION_RULE_VERSION}`  
-Source population: `source_dataset = 'train'`, with non-null `user_id` and `event_ts`.  
+Source population: `source_dataset = 'train'`, with non-null `user_id`, `event_ts`, and `event_date_key`.
 Sessionization is an analytical reconstruction, not the source Expedia session ID.
 The build uses 32 deterministic user-hash buckets, DuckDB spill-to-disk, two
 threads, and a 2GB memory limit; it never creates one in-memory train table.
@@ -814,8 +819,9 @@ materialized version remains `gap_30m_v1`.
 - Row events are `COUNT(*)`; weighted events are `SUM(cnt)`.
 - Booking rates use booking rows or weighted booking events as named in each mart.
 - Booking value proxy is 0 for non-bookings, 1 for hotel-only bookings, and 2 for package bookings; it is not money.
-- `mart_product_daily`, channel, destination, origin, and trip marts use train interaction rows only.
-- `mart_travel_calendar_daily` uses all train interactions on event dates and booking rows on check-in/check-out dates.
+- `mart_product_daily`, channel, destination, origin, and trip marts use train interaction rows with a valid project event date only.
+- The active project-date range is `2013-01-01` through `2016-12-31` inclusive; events outside it remain in CORE but are excluded from sessions and behavioral marts.
+- `mart_travel_calendar_daily` uses valid project event dates and booking rows with valid check-in/check-out date keys.
 - `mart_user_360` includes all observed train users; `observation_end_date` is the maximum observed train event date.
 - `mart_retention_cohort` is observed repeat-booking behavior from each user's first observed booking, not lifetime retention.
 - The destination performance minimum flags are `row_events >= 100` and `bookings >= 10`.
@@ -842,7 +848,11 @@ materialized version remains `gap_30m_v1`.
         "session_rule_version": SESSION_RULE_VERSION,
         "source_population": {
             "source_dataset": "train",
-            "filters": ["user_id IS NOT NULL", "event_ts IS NOT NULL"],
+            "filters": [
+                "user_id IS NOT NULL",
+                "event_ts IS NOT NULL",
+                "event_date_key IS NOT NULL",
+            ],
         },
         "validation": validation,
         "session_summary": {
@@ -896,9 +906,10 @@ def main() -> None:
     try:
         temp_dir = ROOT / "data" / "derived" / "duckdb_tmp"
         temp_dir.mkdir(parents=True, exist_ok=True)
+        temp_directory = temp_dir.resolve().as_posix()
         con.execute("PRAGMA threads=2")
         con.execute("PRAGMA memory_limit='2GB'")
-        con.execute(f"PRAGMA temp_directory={sql_literal(str(temp_dir.resolve()).replace('\\', '/'))}")
+        con.execute(f"PRAGMA temp_directory={sql_literal(temp_directory)}")
         for schema in ("core", "marts", "meta"):
             con.execute(f"CREATE SCHEMA IF NOT EXISTS {schema}")
 
@@ -938,6 +949,7 @@ def main() -> None:
             WHERE e.source_dataset = 'train'
               AND e.user_id IS NOT NULL
               AND e.event_ts IS NOT NULL
+              AND e.event_date_key IS NOT NULL
         """)
 
         session_glob = build_session_fragments(con)

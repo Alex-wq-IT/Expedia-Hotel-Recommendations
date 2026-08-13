@@ -282,9 +282,11 @@ reusable transformations in derived layers.
 
 ## Artifact and change rules
 
-Analysis may create SQL under `sql/`, small outputs under `outputs/`, notebooks
-under `notebooks/` and explicitly requested derived models. Do not edit
-unrelated project files.
+Analysis may create SQL under `sql/`, small outputs under `outputs/`,
+exploratory notebooks and their small supporting files under the canonical
+root-level `eda/`, operational setup/build notebooks under `notebooks/`, and
+explicitly requested derived models. Do not place generated datasets or large
+raw/intermediate data in `eda/`. Do not edit unrelated project files.
 
 If a new mart is created, document its purpose, grain, primary/unique key
 expectation, sources, dimensions, measures, filters, refresh logic and data

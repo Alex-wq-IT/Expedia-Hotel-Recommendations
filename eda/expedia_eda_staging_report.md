@@ -80,7 +80,7 @@ The event timestamps themselves span:
 
 - `2013-01-07 00:00:02` to `2014-12-31 23:59:59`.
 
-Most check-in/check-out dates fall in 2013–2015, but isolated values appear far in the future, including 2057 and 2557/2558. These are obvious anomalies. A simple hard rule such as `year <= 2015` is nevertheless too aggressive because legitimate searches for 2016 exist. Logical checks relative to `date_time` are preferable.
+Most check-in/check-out dates fall in 2013–2015, but isolated values appear far in the future, including 2057 and 2557/2558. The active project rule accepts event, check-in, and check-out dates from `2013-01-01` through `2016-12-31` inclusive. Dates outside that interval are flagged and retained at source grain, but are excluded from date keys and date-derived metrics; temporal-order checks still apply within the accepted range.
 
 ---
 

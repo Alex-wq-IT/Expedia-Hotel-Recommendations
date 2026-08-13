@@ -1,7 +1,9 @@
 """Materialize the Expedia STAGING and CORE layers.
 
-The script is intentionally SQL-first.  It reads only the immutable raw views,
-materializes derived Parquet, and registers derived views in analytics.duckdb.
+The script is intentionally SQL-first.  It registers the immutable test and
+destination Parquet files as RAW views, reads the canonical train Parquet
+directly, materializes derived Parquet, and registers derived views in
+analytics.duckdb.
 """
 
 from __future__ import annotations
@@ -23,6 +25,8 @@ DOCS_DIR = ROOT / "docs"
 BUILD_TS = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 MIN_SUPPORT = 5
 HOLDOUT_MODULUS = 10
+PROJECT_DATE_START = "2013-01-01"
+PROJECT_DATE_END = "2016-12-31"
 USED_DISTANCE_LEVELS = (
     "city_destination",
     "city_market",
@@ -37,6 +41,22 @@ def sql_literal(value: str) -> str:
 
 def output_path(path: Path) -> str:
     return sql_literal(str(path.resolve()).replace("\\", "/"))
+
+
+def project_date_is_valid_sql(expression: str) -> str:
+    """Return the canonical inclusive project-date predicate for a SQL expression."""
+    return (
+        f"COALESCE(CAST({expression} AS DATE) BETWEEN "
+        f"DATE {sql_literal(PROJECT_DATE_START)} AND DATE {sql_literal(PROJECT_DATE_END)}, FALSE)"
+    )
+
+
+def project_date_is_outside_sql(expression: str) -> str:
+    """Flag a present date outside the project range; NULL remains a missing-date issue."""
+    return (
+        f"({expression} IS NOT NULL AND "
+        f"NOT ({project_date_is_valid_sql(expression)}))"
+    )
 
 
 def materialize(con: duckdb.DuckDBPyConnection, layer: str, name: str, query: str, directory: Path) -> Path:
@@ -63,12 +83,32 @@ def table_rows(con: duckdb.DuckDBPyConnection, relation: str) -> int:
     return int(scalar(con, f"SELECT COUNT(*) FROM {relation}", "count"))
 
 
+def ensure_raw_prerequisites(con: duckdb.DuckDBPyConnection) -> None:
+    """Register the source-aligned RAW views required by the CORE build."""
+    con.execute("CREATE SCHEMA IF NOT EXISTS raw")
+    raw_sources = {
+        "test": ROOT / "data" / "parquet" / "test.parquet",
+        "destinations": ROOT / "data" / "parquet" / "destinations.parquet",
+    }
+    missing = [path for path in raw_sources.values() if not path.exists()]
+    if missing:
+        missing_paths = ", ".join(str(path) for path in missing)
+        raise RuntimeError(f"Required RAW Parquet source is missing: {missing_paths}")
+
+    for name, path in raw_sources.items():
+        con.execute(
+            f"CREATE OR REPLACE VIEW raw.{name} AS "
+            f"SELECT * FROM read_parquet({output_path(path)})"
+        )
+
+
 def main() -> None:
     for directory in (STAGING_DIR, CORE_DIR, ARTIFACTS_DIR):
         directory.mkdir(parents=True, exist_ok=True)
 
     con = duckdb.connect(str(DB_PATH))
     try:
+        ensure_raw_prerequisites(con)
         con.execute("CREATE SCHEMA IF NOT EXISTS staging")
         con.execute("CREATE SCHEMA IF NOT EXISTS core")
         con.execute("CREATE SCHEMA IF NOT EXISTS meta")
@@ -223,8 +263,9 @@ def main() -> None:
                 COALESCE(srch_adults_cnt + srch_children_cnt = 0, FALSE)
                     AS q_zero_travelers,
                 COALESCE(
-                    EXTRACT(YEAR FROM checkin_date) >= 2050
-                    OR EXTRACT(YEAR FROM checkout_date) >= 2050,
+                    {project_date_is_outside_sql('event_ts')}
+                    OR {project_date_is_outside_sql('checkin_date')}
+                    OR {project_date_is_outside_sql('checkout_date')},
                     FALSE
                 ) AS q_extreme_future_date,
                 duplicate_group_size > 1 AS q_exact_duplicate,
@@ -367,16 +408,17 @@ def main() -> None:
         con.execute(f"CREATE OR REPLACE TEMP VIEW core_base AS {core_base_sql}")
         core_base_count = table_rows(con, "core_base")
 
-        dim_date_sql = """
+        dim_date_sql = f"""
         WITH candidates AS (
             SELECT CAST(event_ts AS DATE) AS full_date
-            FROM core_base WHERE event_ts IS NOT NULL
+            FROM core_base
+            WHERE {project_date_is_valid_sql('event_ts')}
             UNION
-            SELECT checkin_date FROM core_base WHERE checkin_date IS NOT NULL
-              AND EXTRACT(YEAR FROM checkin_date) BETWEEN 1900 AND 2049
+            SELECT checkin_date FROM core_base
+            WHERE {project_date_is_valid_sql('checkin_date')}
             UNION
-            SELECT checkout_date FROM core_base WHERE checkout_date IS NOT NULL
-              AND EXTRACT(YEAR FROM checkout_date) BETWEEN 1900 AND 2049
+            SELECT checkout_date FROM core_base
+            WHERE {project_date_is_valid_sql('checkout_date')}
         ), bounds AS (
             SELECT MIN(full_date) AS min_date, MAX(full_date) AS max_date FROM candidates
         ), calendar AS (
@@ -1048,7 +1090,7 @@ Architecture: `RAW → STAGING → CORE`; no CLEAN/SILVER or MARTS are materiali
 
 ## Quality and validity
 
-STAGING preserves source grain and source values, including NULL distance. It adds date parsing, duplicate metadata, and quality flags. CORE keeps the first row of each exact source-payload duplicate group using deterministic `source_row_id` order. Suspicious records are not removed for quality reasons. `lead_days` and `stay_nights` are populated only under their validity flags; same-day stays are excluded from `valid_for_stay_length` because their business meaning is ambiguous.
+STAGING preserves source grain and source values, including NULL distance. It adds date parsing, duplicate metadata, and quality flags. The active project-date range is inclusive from `{PROJECT_DATE_START}` through `{PROJECT_DATE_END}` for event, check-in, and check-out dates. The legacy `q_extreme_future_date` field flags any present date outside that range. CORE keeps the first row of each exact source-payload duplicate group using deterministic `source_row_id` order. Suspicious records are not removed for quality reasons: out-of-range dates receive no `dim_date` key, and derived date metrics remain NULL. `lead_days` and `stay_nights` are populated only under their validity flags; same-day stays are excluded from `valid_for_stay_length` because their business meaning is ambiguous.
 
 ## Distance
 

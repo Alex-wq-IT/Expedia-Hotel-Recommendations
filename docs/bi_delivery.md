@@ -20,13 +20,35 @@ reads raw Parquet and never writes to DuckDB.
 
 ## Local start
 
-Requirements: Docker Compose, Python with `duckdb` (already used by the local
-pipeline), and a running Superset admin account.
+The complete clean-setup sequence and stage-by-stage checks are maintained in
+[`setup_bi_runbook.md`](setup_bi_runbook.md). The commands below are only a
+short reference for an already prepared local environment.
 
 ```bash
+cp .env.example .env
+# Replace the CLICKHOUSE_PASSWORD placeholder, then export the same values for
+# Docker Compose and the host-side publisher.
+set -a
+. ./.env
+set +a
+export SUPERSET_SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
+export SUPERSET_USERNAME=admin
+export SUPERSET_PASSWORD='replace-with-a-local-admin-password'
+export SUPERSET_EMAIL='admin@example.com'
 make bi-up
-export SUPERSET_USERNAME=admin SUPERSET_PASSWORD=admin
 make bi-all
+```
+
+`CLICKHOUSE_PASSWORD` is required and must be non-empty. Keep the real value in
+the environment or the ignored local `.env`, never in tracked configuration.
+The default local username is `expedia_bi`; override `CLICKHOUSE_USER` in the
+same environment when needed. After changing either credential, recreate the
+ClickHouse service while preserving its named data volume:
+
+```bash
+docker compose -f infra/docker-compose.yml up -d --force-recreate clickhouse
+curl --fail --user "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
+  http://localhost:8123/ --data-binary 'SELECT 1'
 ```
 
 `bi-all` first rebuilds the existing CORE-derived MARTS with
@@ -35,13 +57,20 @@ make bi-all
 ClickHouse is available at `http://localhost:8123`; Superset is at
 `http://localhost:8088`. Override `CLICKHOUSE_URL`, `CLICKHOUSE_USER`,
 `CLICKHOUSE_PASSWORD`, and `SUPERSET_URL` when using a non-local deployment.
+The publisher uses `CLICKHOUSE_URL` from the host, while the database URI stored
+in Superset uses `SUPERSET_CLICKHOUSE_HOST=clickhouse` and
+`SUPERSET_CLICKHOUSE_PORT=8123` by default so it resolves over the Docker
+network. Override those two variables independently when Superset connects by a
+different internal address.
+The publisher reads the ClickHouse username and password directly from those
+two environment variables, so run it from the shell where they were exported.
 
 Useful commands:
 
 ```bash
-python tools/publish_bi.py publish --dry-run
-python tools/publish_bi.py publish
-python tools/publish_bi.py all --skip-superset
+python3 tools/publish_bi.py publish --dry-run
+python3 tools/publish_bi.py publish
+python3 tools/publish_bi.py all --skip-superset
 make bi-test
 ```
 

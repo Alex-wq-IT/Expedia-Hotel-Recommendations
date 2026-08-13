@@ -173,6 +173,13 @@ STAGING не выполняет:
 * `q_exact_duplicate`;
 * `quality_issue_count`.
 
+Активный допустимый диапазон для `event_ts`, `checkin_date` и
+`checkout_date` — от `2013-01-01` до `2016-12-31` включительно. Историческое
+имя `q_extreme_future_date` сохраняется для совместимости контракта, но flag
+устанавливается для любой присутствующей даты вне этого диапазона. Такие
+source rows сохраняются; их невалидные даты не получают CORE date keys и не
+участвуют в соответствующих date-derived metrics.
+
 Original source columns должны сохраняться.
 
 ---
@@ -1136,6 +1143,7 @@ Derived tables сохраняются в Parquet.
 В Git должны храниться:
 
 ```text
+eda/
 notebooks/
 sql/
 docs/
@@ -1235,4 +1243,3 @@ Manifest нужен для reproducibility и последующего handoff �
 * `distance_imputation_report.md` создан;
 * `core_manifest.json` создан;
 * CORE готов выступать единственным source для следующего MART layer.
-

@@ -2,7 +2,7 @@
 
 Build timestamp: `2026-08-09T15:36:27+00:00`  
 Session rule: `gap_30m_v1`  
-Source population: `source_dataset = 'train'`, with non-null `user_id` and `event_ts`.  
+Source population: `source_dataset = 'train'`, with non-null `user_id`, `event_ts`, and `event_date_key`.
 Sessionization is an analytical reconstruction, not the source Expedia session ID.
 The build uses 32 deterministic user-hash buckets, DuckDB spill-to-disk, two
 threads, and a 2GB memory limit; it never creates one in-memory train table.
@@ -41,8 +41,9 @@ materialized version remains `gap_30m_v1`.
 - Row events are `COUNT(*)`; weighted events are `SUM(cnt)`.
 - Booking rates use booking rows or weighted booking events as named in each mart.
 - Booking value proxy is 0 for non-bookings, 1 for hotel-only bookings, and 2 for package bookings; it is not money.
-- `mart_product_daily`, channel, destination, origin, and trip marts use train interaction rows only.
-- `mart_travel_calendar_daily` uses all train interactions on event dates and booking rows on check-in/check-out dates.
+- `mart_product_daily`, channel, destination, origin, and trip marts use train interaction rows with a valid project event date only.
+- The active project-date range is `2013-01-01` through `2016-12-31` inclusive; events outside it remain in CORE but are excluded from sessions and behavioral marts.
+- `mart_travel_calendar_daily` uses valid project event dates and booking rows with valid check-in/check-out date keys.
 - `mart_user_360` includes all observed train users; `observation_end_date` is the maximum observed train event date.
 - `mart_retention_cohort` is observed repeat-booking behavior from each user's first observed booking, not lifetime retention.
 - The destination performance minimum flags are `row_events >= 100` and `bookings >= 10`.

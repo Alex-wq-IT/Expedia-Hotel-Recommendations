@@ -7,17 +7,17 @@ bi-down:
 	docker compose -f infra/docker-compose.yml down
 
 bi-build:
-	python tools/build_analytics.py
+	python3 tools/build_analytics.py
 
 bi-publish:
-	python tools/publish_bi.py publish
+	python3 tools/publish_bi.py publish
 
 bi-export:
-	python tools/publish_bi.py export
+	python3 tools/publish_bi.py export
 
 bi-all:
-	python tools/build_analytics.py
-	python tools/publish_bi.py all
+	python3 tools/build_analytics.py
+	python3 tools/publish_bi.py all
 
 bi-test:
-	python -m unittest discover -s tests -v
+	python3 -m unittest discover -s tests -v

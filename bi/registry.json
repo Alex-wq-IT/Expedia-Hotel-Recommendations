@@ -28,6 +28,6 @@
     {"name": "Product bookings by day", "mart": "mart_product_daily", "viz_type": "echarts_timeseries_line", "groupby": ["date_key"], "metrics": ["sum__bookings"]},
     {"name": "Product conversion by day", "mart": "mart_product_daily", "viz_type": "echarts_timeseries_line", "groupby": ["date_key"], "metrics": ["avg__booking_row_rate"]},
     {"name": "Bookings by channel and platform", "mart": "mart_channel_platform", "viz_type": "echarts_timeseries_bar", "groupby": ["channel"], "metrics": ["sum__bookings"]},
-    {"name": "Top destinations by bookings", "mart": "mart_destination_performance", "viz_type": "dist_bar", "groupby": ["destination_id"], "metrics": ["sum__bookings"]}
+    {"name": "Top destinations by bookings", "mart": "mart_destination_performance", "viz_type": "echarts_timeseries_bar", "x_axis": "destination_id", "order_desc": true, "groupby": ["destination_id"], "metrics": ["sum__bookings"]}
   ]
 }
