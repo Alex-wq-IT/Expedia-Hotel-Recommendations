@@ -36,4 +36,5 @@ def configure_duckdb(connection: Any, temp_directory: Path) -> None:
     temp_path = temp_directory.resolve().as_posix().replace("'", "''")
     connection.execute(f"PRAGMA threads={threads}")
     connection.execute(f"PRAGMA memory_limit='{memory_limit}'")
+    connection.execute("SET preserve_insertion_order=false")
     connection.execute(f"PRAGMA temp_directory='{temp_path}'")

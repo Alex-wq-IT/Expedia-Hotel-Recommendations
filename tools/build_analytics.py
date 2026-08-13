@@ -723,10 +723,8 @@ def validate(con: duckdb.DuckDBPyConnection) -> dict:
         """)),
         "session_user_violations": int(scalar(con, """
             SELECT COUNT(*) FROM (
-                SELECT m.session_id, COUNT(DISTINCT e.user_id) AS users
-                FROM core.event_session_map m
-                JOIN core.fct_event e ON e.event_id = m.event_id
-                WHERE m.session_rule_version = 'gap_30m_v1'
+                SELECT session_id, COUNT(DISTINCT user_id) AS users
+                FROM core.fct_session
                 GROUP BY session_id
                 HAVING COUNT(DISTINCT user_id) <> 1
             )
@@ -784,8 +782,8 @@ def write_docs_and_manifest(
 
     report = f"""# Sessionization and MARTS build report
 
-Build timestamp: `{BUILD_TS}`  
-Session rule: `{SESSION_RULE_VERSION}`  
+Build timestamp: `{BUILD_TS}`
+Session rule: `{SESSION_RULE_VERSION}`
 Source population: `source_dataset = 'train'`, with non-null `user_id`, `event_ts`, and `event_date_key`.
 Sessionization is an analytical reconstruction, not the source Expedia session ID.
 The build uses 32 deterministic user-hash buckets and DuckDB spill-to-disk.

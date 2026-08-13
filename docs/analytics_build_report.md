@@ -1,11 +1,12 @@
 # Sessionization and MARTS build report
 
-Build timestamp: `2026-08-09T15:36:27+00:00`  
-Session rule: `gap_30m_v1`  
+Build timestamp: `2026-08-13T22:27:36+00:00`
+Session rule: `gap_30m_v1`
 Source population: `source_dataset = 'train'`, with non-null `user_id`, `event_ts`, and `event_date_key`.
 Sessionization is an analytical reconstruction, not the source Expedia session ID.
-The build uses 32 deterministic user-hash buckets, DuckDB spill-to-disk, two
-threads, and a 2GB memory limit; it never creates one in-memory train table.
+The build uses 32 deterministic user-hash buckets and DuckDB spill-to-disk.
+This run used 1 thread(s) and a 1GB memory
+limit; it never creates one in-memory train table.
 
 ## Session rule
 
@@ -81,6 +82,6 @@ materialized version remains `gap_30m_v1`.
 | `mart_product_daily` | 724 |
 | `mart_retention_cohort` | 300 |
 | `mart_session_daily` | 724 |
-| `mart_travel_calendar_daily` | 6,908 |
+| `mart_travel_calendar_daily` | 1,460 |
 | `mart_trip_profile` | 2,399 |
 | `mart_user_360` | 1,198,786 |

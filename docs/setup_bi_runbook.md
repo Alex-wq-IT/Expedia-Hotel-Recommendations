@@ -24,7 +24,8 @@ Parquet → RAW → STAGING → CORE → MARTS → ClickHouse
 - пакет Python `duckdb`;
 - Docker Engine с Compose plugin (`docker compose`);
 - `curl` для проверок локальных HTTP endpoints;
-- место на диске для исходных данных, derived-слоёв, образов и Docker volumes.
+- не менее 20 GB свободного места для временного DuckDB spill, derived-слоёв,
+  образов и Docker volumes.
 
 Проверьте инструменты и установите единственную Python-зависимость, если её
 ещё нет:
@@ -87,7 +88,10 @@ PY
 лимит памяти 1 GB и spill-to-disk. Для более мощной машины параметры можно
 явно увеличить, например `EXPEDIA_DUCKDB_THREADS=2` и
 `EXPEDIA_DUCKDB_MEMORY_LIMIT=2GB`. Не запускайте CORE/analytics build
-параллельно с `docker compose build`.
+параллельно с `docker compose build` или запущенным BI-стеком. Лимит DuckDB
+ограничивает его основной buffer pool, но не всю память процесса: измеренный
+пик полной CORE-сборки составляет около 4.1 GB RSS, поэтому перед запуском
+оставьте не менее 6 GB свободной RAM.
 
 ```bash
 python3 tools/build_core.py

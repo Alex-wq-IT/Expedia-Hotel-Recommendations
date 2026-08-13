@@ -51,3 +51,11 @@ env/
 .env
 .env.*
 !.env.example
+
+# =========================
+# GENERATED BI EXPORTS
+# =========================
+
+/artifacts/bi_publish_manifest.json
+/exports/latest.yaml
+/exports/expedia-bi-*.zip

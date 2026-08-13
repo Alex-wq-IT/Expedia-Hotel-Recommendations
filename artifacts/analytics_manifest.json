@@ -1,13 +1,18 @@
 {
   "manifest_version": 1,
-  "build_timestamp": "2026-08-09T15:36:27+00:00",
+  "build_timestamp": "2026-08-13T22:27:36+00:00",
   "session_rule_version": "gap_30m_v1",
   "source_population": {
     "source_dataset": "train",
     "filters": [
       "user_id IS NOT NULL",
-      "event_ts IS NOT NULL"
+      "event_ts IS NOT NULL",
+      "event_date_key IS NOT NULL"
     ]
+  },
+  "runtime": {
+    "duckdb_threads": 1,
+    "duckdb_memory_limit": "1GB"
   },
   "validation": {
     "event_session_map_rows": 37669324,
@@ -144,7 +149,7 @@
     },
     {
       "table_name": "marts.mart_travel_calendar_daily",
-      "row_count": 6908,
+      "row_count": 1460,
       "parquet_path": "data/derived/marts/mart_travel_calendar_daily.parquet"
     },
     {

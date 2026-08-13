@@ -27,6 +27,16 @@ class LaptopResourceLimitsTest(unittest.TestCase):
 
         self.assertIn("PRAGMA threads=1", connection.queries)
         self.assertIn("PRAGMA memory_limit='1GB'", connection.queries)
+        self.assertIn("SET preserve_insertion_order=false", connection.queries)
+
+    def test_session_user_validation_does_not_rejoin_all_events(self):
+        source = (ROOT / "tools" / "build_analytics.py").read_text(encoding="utf-8")
+        validation = source.split('"session_user_violations"', 1)[1].split(
+            '"negative_session_durations"', 1
+        )[0]
+
+        self.assertIn("FROM core.fct_session", validation)
+        self.assertNotIn("JOIN core.fct_event", validation)
 
     def test_duckdb_limits_can_be_overridden_explicitly(self):
         connection = RecordingConnection()
