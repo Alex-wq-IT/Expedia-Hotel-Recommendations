@@ -3,6 +3,8 @@ services:
     image: clickhouse/clickhouse-server:24.8
     container_name: expedia_clickhouse
     restart: unless-stopped
+    mem_limit: 2g
+    cpus: 1.0
     ports:
       - "8123:8123"
       - "9000:9000"
@@ -26,6 +28,8 @@ services:
     image: hotelsbooking-superset:local
     container_name: expedia_superset
     restart: unless-stopped
+    mem_limit: 1536m
+    cpus: 1.0
     ports:
       - "8088:8088"
     environment:
@@ -40,7 +44,7 @@ services:
       ADMIN_USERNAME: ${SUPERSET_USERNAME:-admin}
       ADMIN_PASSWORD: ${SUPERSET_PASSWORD:-admin}
       ADMIN_EMAIL: ${SUPERSET_EMAIL:-admin@example.com}
-    command: ["/bin/sh", "-c", "gunicorn --bind 0.0.0.0:8088 --workers 2 'superset.app:create_app()'"]
+    command: ["/bin/sh", "-c", "gunicorn --bind 0.0.0.0:8088 --workers 1 'superset.app:create_app()'"]
     volumes:
       - superset_home:/app/superset_home
       - ./superset_config.py:/app/pythonpath/superset_config.py:ro
@@ -54,6 +58,8 @@ services:
     image: postgres:16
     container_name: expedia_superset_db
     restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.5
     environment:
       POSTGRES_DB: superset
       POSTGRES_USER: superset
@@ -71,6 +77,8 @@ services:
       context: .
       dockerfile: Dockerfile
     image: hotelsbooking-superset:local
+    mem_limit: 1536m
+    cpus: 1.0
     container_name: expedia_superset_init
     environment:
       SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-change-me-for-local-only}

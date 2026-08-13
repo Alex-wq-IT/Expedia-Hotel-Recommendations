@@ -14,6 +14,11 @@ from pathlib import Path
 
 import duckdb
 
+try:
+    from tools.duckdb_runtime import configure_duckdb
+except ModuleNotFoundError:  # Direct entrypoint: python3 tools/build_core.py
+    from duckdb_runtime import configure_duckdb
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = ROOT / "data" / "analytics.duckdb"
@@ -108,6 +113,7 @@ def main() -> None:
 
     con = duckdb.connect(str(DB_PATH))
     try:
+        configure_duckdb(con, DERIVED / "duckdb_tmp" / "core")
         ensure_raw_prerequisites(con)
         con.execute("CREATE SCHEMA IF NOT EXISTS staging")
         con.execute("CREATE SCHEMA IF NOT EXISTS core")

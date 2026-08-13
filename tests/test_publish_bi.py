@@ -282,7 +282,18 @@ class PublishBiTest(unittest.TestCase):
     def test_dataset_metrics_use_details_and_put_only_missing_metrics(self):
         client = object.__new__(SupersetClient)
         client.request = Mock(side_effect=[
-            {"result": {"metrics": [{"metric_name": "sum__event_rows"}]}},
+            {
+                "result": {
+                    "metrics": [
+                        {
+                            "id": 7,
+                            "metric_name": "sum__event_rows",
+                            "expression": "SUM(`event_rows`)",
+                            "changed_on": "response-only-field",
+                        }
+                    ]
+                }
+            },
             {"id": 42},
         ])
         metrics = [
@@ -299,7 +310,16 @@ class PublishBiTest(unittest.TestCase):
                 call(
                     "/api/v1/dataset/42",
                     "PUT",
-                    {"metrics": [metrics[1]]},
+                    {
+                        "metrics": [
+                            {
+                                "id": 7,
+                                "metric_name": "sum__event_rows",
+                                "expression": "SUM(`event_rows`)",
+                            },
+                            metrics[1],
+                        ]
+                    },
                 ),
             ],
         )
@@ -357,7 +377,10 @@ class PublishBiTest(unittest.TestCase):
 
         def dataset_api(_path, method="GET", payload=None):
             if method == "PUT":
-                existing_metrics.extend(payload["metrics"])
+                existing_metrics[:] = [
+                    {**metric, "id": metric.get("id", index + 1)}
+                    for index, metric in enumerate(payload["metrics"])
+                ]
                 return {"id": 42}
             return {"result": {"metrics": list(existing_metrics)}}
 

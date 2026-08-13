@@ -12,6 +12,11 @@ from pathlib import Path
 
 import duckdb
 
+try:
+    from tools.duckdb_runtime import configure_duckdb, runtime_settings
+except ModuleNotFoundError:  # Direct entrypoint: python3 tools/build_analytics.py
+    from duckdb_runtime import configure_duckdb, runtime_settings
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = ROOT / "data" / "analytics.duckdb"
@@ -763,6 +768,7 @@ def write_docs_and_manifest(
     mart_counts: dict[str, int],
     validation: dict,
 ) -> None:
+    runtime_threads, runtime_memory_limit = runtime_settings()
     session_summary = con.execute("""
         SELECT
             COUNT(*) AS sessions,
@@ -782,8 +788,9 @@ Build timestamp: `{BUILD_TS}`
 Session rule: `{SESSION_RULE_VERSION}`  
 Source population: `source_dataset = 'train'`, with non-null `user_id`, `event_ts`, and `event_date_key`.
 Sessionization is an analytical reconstruction, not the source Expedia session ID.
-The build uses 32 deterministic user-hash buckets, DuckDB spill-to-disk, two
-threads, and a 2GB memory limit; it never creates one in-memory train table.
+The build uses 32 deterministic user-hash buckets and DuckDB spill-to-disk.
+This run used {runtime_threads} thread(s) and a {runtime_memory_limit} memory
+limit; it never creates one in-memory train table.
 
 ## Session rule
 
@@ -854,6 +861,10 @@ materialized version remains `gap_30m_v1`.
                 "event_date_key IS NOT NULL",
             ],
         },
+        "runtime": {
+            "duckdb_threads": runtime_threads,
+            "duckdb_memory_limit": runtime_memory_limit,
+        },
         "validation": validation,
         "session_summary": {
             "eligible_events": validation["eligible_train_events"],
@@ -904,12 +915,7 @@ def main() -> None:
 
     con = duckdb.connect(str(DB_PATH))
     try:
-        temp_dir = ROOT / "data" / "derived" / "duckdb_tmp"
-        temp_dir.mkdir(parents=True, exist_ok=True)
-        temp_directory = temp_dir.resolve().as_posix()
-        con.execute("PRAGMA threads=2")
-        con.execute("PRAGMA memory_limit='2GB'")
-        con.execute(f"PRAGMA temp_directory={sql_literal(temp_directory)}")
+        configure_duckdb(con, ROOT / "data" / "derived" / "duckdb_tmp" / "analytics")
         for schema in ("core", "marts", "meta"):
             con.execute(f"CREATE SCHEMA IF NOT EXISTS {schema}")
 

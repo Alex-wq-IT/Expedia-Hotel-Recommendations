@@ -197,17 +197,31 @@ class SupersetClient:
     def add_missing_metrics(self, dataset_id: int, metrics: list[dict[str, Any]]) -> dict[str, Any]:
         path = f"/api/v1/dataset/{dataset_id}"
         details = self.request(path)
-        existing_names = {
-            metric.get("metric_name")
-            for metric in details.get("result", {}).get("metrics", [])
-        }
+        existing_metrics = details.get("result", {}).get("metrics", [])
+        existing_names = {metric.get("metric_name") for metric in existing_metrics}
         missing_metrics = [
             metric for metric in metrics
             if metric.get("metric_name") not in existing_names
         ]
         if not missing_metrics:
             return details
-        return self.request(path, "PUT", {"metrics": missing_metrics})
+        # Superset's dataset PUT treats `metrics` as the complete replacement
+        # collection. Preserve every existing metric (and its id) while adding
+        # only the registry metrics that are actually missing.
+        accepted_fields = {
+            "id", "expression", "description", "extra", "metric_name",
+            "metric_type", "d3format", "currency", "verbose_name",
+            "warning_text", "uuid",
+        }
+        preserved_metrics = [
+            {key: value for key, value in metric.items() if key in accepted_fields}
+            for metric in existing_metrics
+        ]
+        return self.request(
+            path,
+            "PUT",
+            {"metrics": [*preserved_metrics, *missing_metrics]},
+        )
 
 
 def publish_clickhouse(registry: dict[str, Any], client: ClickHouseClient, dry_run: bool = False) -> list[dict[str, Any]]:

@@ -118,8 +118,12 @@ delete or reformat:
 
 - `data/train.csv`, `data/test.csv`, `data/destinations.csv`;
 - anything under `data/parquet/` or `data/train_parquet/`;
-- `raw.*` views;
 - any other file explicitly identified as an immutable source dataset.
+
+Source data behind `raw.*` is immutable. During ordinary analysis, do not
+change RAW catalog objects. An explicitly requested build/bootstrap may create
+or refresh source-aligned `raw.*` view definitions over the same immutable
+files; it must not transform or write the underlying source data.
 
 During ordinary analysis:
 
@@ -130,8 +134,9 @@ During ordinary analysis:
 
 If the user explicitly asks to build or rebuild derived data, writes are
 allowed only to the relevant `data/derived/staging/`, `data/derived/core/`,
-`data/derived/marts/` or scratch locations. Raw files and `raw` remain
-immutable.
+`data/derived/marts/` or scratch locations, plus source-aligned RAW view
+registration when the requested build requires catalog bootstrap. Raw files
+remain immutable.
 
 ## Dataset and field semantics
 

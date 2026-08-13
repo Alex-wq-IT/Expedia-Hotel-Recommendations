@@ -33,13 +33,12 @@ class RecordingConnection:
 
 class BuildAnalyticsCompatibilityTest(unittest.TestCase):
     def test_temp_directory_path_is_prepared_outside_fstring(self):
-        source = BUILD_ANALYTICS.read_text(encoding="utf-8")
+        source = (
+            BUILD_ANALYTICS.parents[0] / "duckdb_runtime.py"
+        ).read_text(encoding="utf-8")
 
-        self.assertIn("temp_directory = temp_dir.resolve().as_posix()", source)
-        self.assertIn(
-            'con.execute(f"PRAGMA temp_directory={sql_literal(temp_directory)}")',
-            source,
-        )
+        self.assertIn("temp_directory.resolve().as_posix()", source)
+        self.assertIn('connection.execute(f"PRAGMA temp_directory=', source)
         self.assertNotIn("replace('\\\\', '/')", source)
 
     def test_main_configures_posix_temp_directory_before_building(self):
@@ -60,7 +59,9 @@ class BuildAnalyticsCompatibilityTest(unittest.TestCase):
                 with self.assertRaises(TempDirectoryConfigured):
                     build_analytics.main()
 
-            temp_directory = (root / "data" / "derived" / "duckdb_tmp").resolve().as_posix()
+            temp_directory = (
+                root / "data" / "derived" / "duckdb_tmp" / "analytics"
+            ).resolve().as_posix()
             expected_pragma = (
                 "PRAGMA temp_directory='" + temp_directory.replace("'", "''") + "'"
             )

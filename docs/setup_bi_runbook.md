@@ -83,6 +83,12 @@ PY
 
 ## 3. Инициализируйте RAW catalog views и соберите STAGING/CORE
 
+По умолчанию обе DuckDB-сборки используют laptop-safe профиль: один thread,
+лимит памяти 1 GB и spill-to-disk. Для более мощной машины параметры можно
+явно увеличить, например `EXPEDIA_DUCKDB_THREADS=2` и
+`EXPEDIA_DUCKDB_MEMORY_LIMIT=2GB`. Не запускайте CORE/analytics build
+параллельно с `docker compose build`.
+
 ```bash
 python3 tools/build_core.py
 ```
@@ -192,7 +198,7 @@ Superset image с PostgreSQL- и ClickHouse-драйверами, затем з�
 
 ```bash
 docker compose -f infra/docker-compose.yml pull clickhouse db
-docker compose -f infra/docker-compose.yml build superset superset-init
+docker compose -f infra/docker-compose.yml build superset
 make bi-up
 ```
 

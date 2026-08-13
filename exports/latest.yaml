@@ -1,0 +1,289 @@
+{
+  "registry": {
+    "version": 1,
+    "clickhouse": {
+      "database": "expedia",
+      "table_prefix": "mart_",
+      "order_by": "tuple()"
+    },
+    "superset": {
+      "database_name": "Expedia ClickHouse",
+      "dashboard_title": "Expedia Hotel Analytics",
+      "slug": "expedia-hotel-analytics"
+    },
+    "marts": [
+      {
+        "name": "mart_product_daily",
+        "grain": "event date",
+        "time_column": "date_key",
+        "metrics": [
+          "sum__active_users",
+          "sum__row_events",
+          "sum__bookings",
+          "avg__booking_row_rate"
+        ]
+      },
+      {
+        "name": "mart_session_daily",
+        "grain": "session start date",
+        "time_column": "date_key",
+        "metrics": [
+          "sum__active_users",
+          "sum__sessions",
+          "sum__booking_sessions",
+          "avg__session_booking_rate"
+        ]
+      },
+      {
+        "name": "mart_travel_calendar_daily",
+        "grain": "calendar date",
+        "time_column": "date_key",
+        "metrics": [
+          "sum__events_on_date",
+          "sum__bookings_made_on_date",
+          "sum__checkins_on_date"
+        ]
+      },
+      {
+        "name": "mart_channel_platform",
+        "grain": "month x channel x platform x mobile",
+        "time_column": "year_month",
+        "metrics": [
+          "sum__active_users",
+          "sum__row_events",
+          "sum__bookings",
+          "avg__booking_row_rate"
+        ]
+      },
+      {
+        "name": "mart_destination_performance",
+        "grain": "month x destination x hotel market",
+        "time_column": "year_month",
+        "metrics": [
+          "sum__active_users",
+          "sum__row_events",
+          "sum__bookings",
+          "avg__booking_row_rate"
+        ]
+      },
+      {
+        "name": "mart_user_360",
+        "grain": "user",
+        "time_column": null,
+        "metrics": [
+          "sum__row_events",
+          "sum__weighted_events",
+          "sum__bookings",
+          "avg__booking_frequency"
+        ]
+      },
+      {
+        "name": "mart_origin_destination",
+        "grain": "month x origin x destination",
+        "time_column": "year_month",
+        "metrics": [
+          "sum__active_users",
+          "sum__row_events",
+          "sum__bookings",
+          "avg__booking_row_rate"
+        ]
+      },
+      {
+        "name": "mart_trip_profile",
+        "grain": "month x lead bucket x stay bucket x party segment",
+        "time_column": "year_month",
+        "metrics": [
+          "sum__active_users",
+          "sum__row_events",
+          "sum__bookings",
+          "avg__booking_row_rate"
+        ]
+      },
+      {
+        "name": "mart_retention_cohort",
+        "grain": "first booking month x months since first booking",
+        "time_column": "first_booking_month",
+        "metrics": [
+          "sum__cohort_users",
+          "sum__active_users",
+          "avg__retention_rate"
+        ]
+      },
+      {
+        "name": "mart_booking_frequency",
+        "grain": "booking-count bucket",
+        "time_column": null,
+        "metrics": [
+          "sum__users",
+          "sum__booking_count",
+          "avg__share_of_users"
+        ]
+      },
+      {
+        "name": "mart_data_quality_daily",
+        "grain": "event date",
+        "time_column": "date_key",
+        "metrics": [
+          "sum__rows",
+          "sum__quality_issue_rows",
+          "avg__quality_issue_rate"
+        ]
+      },
+      {
+        "name": "mart_distance_quality",
+        "grain": "imputation level x support threshold",
+        "time_column": null,
+        "metrics": [
+          "sum__rows",
+          "avg__coverage_pct",
+          "avg__mae"
+        ]
+      }
+    ],
+    "dashboard_charts": [
+      {
+        "name": "Product bookings by day",
+        "mart": "mart_product_daily",
+        "viz_type": "echarts_timeseries_line",
+        "groupby": [
+          "date_key"
+        ],
+        "metrics": [
+          "sum__bookings"
+        ]
+      },
+      {
+        "name": "Product conversion by day",
+        "mart": "mart_product_daily",
+        "viz_type": "echarts_timeseries_line",
+        "groupby": [
+          "date_key"
+        ],
+        "metrics": [
+          "avg__booking_row_rate"
+        ]
+      },
+      {
+        "name": "Bookings by channel and platform",
+        "mart": "mart_channel_platform",
+        "viz_type": "echarts_timeseries_bar",
+        "groupby": [
+          "channel"
+        ],
+        "metrics": [
+          "sum__bookings"
+        ]
+      },
+      {
+        "name": "Top destinations by bookings",
+        "mart": "mart_destination_performance",
+        "viz_type": "dist_bar",
+        "groupby": [
+          "destination_id"
+        ],
+        "metrics": [
+          "sum__bookings"
+        ]
+      }
+    ]
+  },
+  "clickhouse": [
+    {
+      "name": "mart_product_daily",
+      "path": "data/derived/marts/mart_product_daily.parquet",
+      "columns": 19,
+      "bytes": 78487
+    },
+    {
+      "name": "mart_session_daily",
+      "path": "data/derived/marts/mart_session_daily.parquet",
+      "columns": 13,
+      "bytes": 48241
+    },
+    {
+      "name": "mart_travel_calendar_daily",
+      "path": "data/derived/marts/mart_travel_calendar_daily.parquet",
+      "columns": 14,
+      "bytes": 94033
+    },
+    {
+      "name": "mart_channel_platform",
+      "path": "data/derived/marts/mart_channel_platform.parquet",
+      "columns": 15,
+      "bytes": 395996
+    },
+    {
+      "name": "mart_destination_performance",
+      "path": "data/derived/marts/mart_destination_performance.parquet",
+      "columns": 17,
+      "bytes": 11273856
+    },
+    {
+      "name": "mart_user_360",
+      "path": "data/derived/marts/mart_user_360.parquet",
+      "columns": 26,
+      "bytes": 35651401
+    },
+    {
+      "name": "mart_origin_destination",
+      "path": "data/derived/marts/mart_origin_destination.parquet",
+      "columns": 13,
+      "bytes": 2643387
+    },
+    {
+      "name": "mart_trip_profile",
+      "path": "data/derived/marts/mart_trip_profile.parquet",
+      "columns": 16,
+      "bytes": 125936
+    },
+    {
+      "name": "mart_retention_cohort",
+      "path": "data/derived/marts/mart_retention_cohort.parquet",
+      "columns": 7,
+      "bytes": 6483
+    },
+    {
+      "name": "mart_booking_frequency",
+      "path": "data/derived/marts/mart_booking_frequency.parquet",
+      "columns": 8,
+      "bytes": 1531
+    },
+    {
+      "name": "mart_data_quality_daily",
+      "path": "data/derived/marts/mart_data_quality_daily.parquet",
+      "columns": 9,
+      "bytes": 38875
+    },
+    {
+      "name": "mart_distance_quality",
+      "path": "data/derived/marts/mart_distance_quality.parquet",
+      "columns": 9,
+      "bytes": 3993
+    }
+  ],
+  "superset": {
+    "database_id": 0,
+    "datasets": {
+      "mart_product_daily": 0,
+      "mart_session_daily": 0,
+      "mart_travel_calendar_daily": 0,
+      "mart_channel_platform": 0,
+      "mart_destination_performance": 0,
+      "mart_user_360": 0,
+      "mart_origin_destination": 0,
+      "mart_trip_profile": 0,
+      "mart_retention_cohort": 0,
+      "mart_booking_frequency": 0,
+      "mart_data_quality_daily": 0,
+      "mart_distance_quality": 0
+    },
+    "charts": {
+      "Product bookings by day": 0,
+      "Product conversion by day": 0,
+      "Bookings by channel and platform": 0,
+      "Top destinations by bookings": 0
+    },
+    "dashboard_id": 0
+  },
+  "exported_at": "20260810T050439Z"
+}

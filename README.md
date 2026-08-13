@@ -52,6 +52,11 @@ CSV-источники (`train.csv`, `test.csv`, `destinations.csv`) также 
 python3 -m pip install duckdb
 ```
 
+DuckDB builders по умолчанию ограничены одним thread и 1 GB RAM с
+spill-to-disk. Это безопасный профиль для ноутбука; overrides
+`EXPEDIA_DUCKDB_THREADS` и `EXPEDIA_DUCKDB_MEMORY_LIMIT` задавайте только при
+наличии свободных ресурсов.
+
 Проверьте наличие данных:
 
 ```bash

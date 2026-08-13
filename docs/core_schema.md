@@ -1,6 +1,6 @@
 # CORE schema
 
-Build timestamp: `2026-08-09T14:15:57+00:00`  
+Build timestamp: `2026-08-13T22:11:07+00:00`  
 Source: immutable `raw.train`, `raw.test`, `raw.destinations`  
 Architecture: `RAW → STAGING → CORE`; no CLEAN/SILVER or MARTS are materialized.
 
