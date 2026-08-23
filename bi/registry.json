@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "clickhouse": {
     "database": "expedia",
     "table_prefix": "mart_",
@@ -11,23 +11,253 @@
     "slug": "expedia-hotel-analytics"
   },
   "marts": [
-    {"name": "mart_product_daily", "grain": "event date", "time_column": "date_key", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
-    {"name": "mart_session_daily", "grain": "session start date", "time_column": "date_key", "metrics": ["sum__active_users", "sum__sessions", "sum__booking_sessions", "avg__session_booking_rate"]},
-    {"name": "mart_travel_calendar_daily", "grain": "calendar date", "time_column": "date_key", "metrics": ["sum__events_on_date", "sum__bookings_made_on_date", "sum__checkins_on_date"]},
-    {"name": "mart_channel_platform", "grain": "month x channel x platform x mobile", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
-    {"name": "mart_destination_performance", "grain": "month x destination x hotel market", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
-    {"name": "mart_user_360", "grain": "user", "time_column": null, "metrics": ["sum__row_events", "sum__weighted_events", "sum__bookings", "avg__booking_frequency"]},
-    {"name": "mart_origin_destination", "grain": "month x origin x destination", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
-    {"name": "mart_trip_profile", "grain": "month x lead bucket x stay bucket x party segment", "time_column": "year_month", "metrics": ["sum__active_users", "sum__row_events", "sum__bookings", "avg__booking_row_rate"]},
-    {"name": "mart_retention_cohort", "grain": "first booking month x months since first booking", "time_column": "first_booking_month", "metrics": ["sum__cohort_users", "sum__active_users", "avg__retention_rate"]},
-    {"name": "mart_booking_frequency", "grain": "booking-count bucket", "time_column": null, "metrics": ["sum__users", "sum__booking_count", "avg__share_of_users"]},
-    {"name": "mart_data_quality_daily", "grain": "event date", "time_column": "date_key", "metrics": ["sum__rows", "sum__quality_issue_rows", "avg__quality_issue_rate"]},
-    {"name": "mart_distance_quality", "grain": "imputation level x support threshold", "time_column": null, "metrics": ["sum__rows", "avg__coverage_pct", "avg__mae"]}
+    {
+      "name": "mart_product_daily",
+      "grain": "event date",
+      "time_column": "date_key",
+      "metrics": [
+        "sum__active_users",
+        "sum__row_events",
+        "sum__weighted_events",
+        "sum__bookings",
+        "sum__bookers",
+        "avg__booking_row_rate",
+        "avg__booking_weighted_event_rate",
+        "avg__booker_rate",
+        "sum__booking_value_proxy_total",
+        "avg__mobile_row_share",
+        "avg__mobile_booking_share",
+        "avg__package_booking_share"
+      ]
+    },
+    {
+      "name": "mart_session_daily",
+      "grain": "session start date",
+      "time_column": "date_key",
+      "metrics": [
+        "sum__active_users",
+        "sum__sessions",
+        "sum__booking_sessions",
+        "avg__session_booking_rate",
+        "avg__sessions_per_user",
+        "sum__booking_value_proxy_total"
+      ]
+    },
+    {
+      "name": "mart_travel_calendar_daily",
+      "grain": "calendar date",
+      "time_column": "date_key",
+      "metrics": [
+        "sum__events_on_date",
+        "sum__weighted_events_on_date",
+        "sum__bookings_made_on_date",
+        "sum__checkins_on_date",
+        "sum__checkouts_on_date",
+        "sum__booking_value_proxy_for_checkins",
+        "sum__package_checkins"
+      ]
+    },
+    {
+      "name": "mart_channel_platform",
+      "grain": "month x channel x platform x mobile",
+      "time_column": "year_month",
+      "metrics": [
+        "sum__active_users",
+        "sum__row_events",
+        "sum__weighted_events",
+        "sum__bookings",
+        "avg__booking_row_rate",
+        "avg__booking_weighted_event_rate",
+        "sum__booking_value_proxy_total",
+        "avg__package_booking_share"
+      ]
+    },
+    {
+      "name": "mart_destination_performance",
+      "grain": "month x destination x hotel market",
+      "time_column": "year_month",
+      "metrics": [
+        "sum__active_users",
+        "sum__row_events",
+        "sum__weighted_events",
+        "sum__bookings",
+        "sum__bookers",
+        "avg__booking_row_rate",
+        "avg__booking_weighted_event_rate",
+        "sum__booking_value_proxy_total"
+      ]
+    },
+    {
+      "name": "mart_user_360",
+      "grain": "user",
+      "time_column": null,
+      "metrics": [
+        "sum__row_events",
+        "sum__weighted_events",
+        "sum__bookings",
+        "sum__booking_value_proxy_total",
+        "avg__booking_frequency",
+        "avg__session_frequency",
+        "avg__package_booking_share",
+        "avg__mobile_event_share"
+      ]
+    },
+    {
+      "name": "mart_origin_destination",
+      "grain": "month x user country x hotel country",
+      "time_column": "year_month",
+      "metrics": [
+        "sum__active_users",
+        "sum__row_events",
+        "sum__weighted_events",
+        "sum__bookings",
+        "avg__booking_row_rate",
+        "sum__booking_value_proxy_total",
+        "avg__package_booking_share"
+      ]
+    },
+    {
+      "name": "mart_trip_profile",
+      "grain": "month x lead bucket x stay bucket x party segment",
+      "time_column": "year_month",
+      "metrics": [
+        "sum__users",
+        "sum__events",
+        "sum__weighted_events",
+        "sum__bookings",
+        "avg__booking_row_rate",
+        "avg__booking_weighted_event_rate",
+        "sum__booking_value_proxy_total",
+        "sum__sessions",
+        "sum__booking_sessions",
+        "avg__session_booking_rate"
+      ]
+    },
+    {
+      "name": "mart_package_profile",
+      "grain": "month x package x lead bucket x stay bucket x party x channel x mobile",
+      "time_column": "year_month",
+      "metrics": [
+        "sum__users",
+        "sum__events",
+        "sum__weighted_events",
+        "sum__bookings",
+        "sum__weighted_bookings",
+        "avg__booking_row_rate",
+        "avg__booking_weighted_event_rate",
+        "sum__booking_value_proxy_total"
+      ]
+    },
+    {
+      "name": "mart_retention_cohort",
+      "grain": "cohort month x months since first booking",
+      "time_column": "cohort_month",
+      "metrics": [
+        "sum__cohort_users",
+        "sum__returned_bookers",
+        "avg__booking_retention_rate",
+        "sum__bookings",
+        "sum__booking_value_proxy_total"
+      ]
+    },
+    {
+      "name": "mart_booking_frequency",
+      "grain": "booking-count bucket",
+      "time_column": null,
+      "metrics": [
+        "sum__users",
+        "avg__user_share",
+        "avg__avg_sessions",
+        "avg__avg_active_months",
+        "avg__avg_booking_value_proxy",
+        "avg__avg_package_booking_share"
+      ]
+    },
+    {
+      "name": "mart_booking_frequency_exact",
+      "grain": "exact booking count",
+      "time_column": null,
+      "metrics": [
+        "sum__users",
+        "avg__user_share"
+      ]
+    },
+    {
+      "name": "mart_data_quality_daily",
+      "grain": "event date",
+      "time_column": "date_key",
+      "metrics": [
+        "sum__rows",
+        "sum__weighted_events",
+        "avg__missing_distance_share",
+        "avg__imputed_distance_share",
+        "avg__invalid_lead_time_share",
+        "avg__invalid_stay_share",
+        "avg__zero_party_share",
+        "avg__quality_issue_share"
+      ]
+    },
+    {
+      "name": "mart_distance_quality",
+      "grain": "imputation level x min support",
+      "time_column": null,
+      "metrics": [
+        "sum__holdout_rows",
+        "sum__covered_rows",
+        "avg__coverage_pct",
+        "avg__mae",
+        "avg__median_absolute_error",
+        "avg__p90_absolute_error",
+        "avg__average_support"
+      ]
+    }
   ],
   "dashboard_charts": [
-    {"name": "Product bookings by day", "mart": "mart_product_daily", "viz_type": "echarts_timeseries_line", "groupby": ["date_key"], "metrics": ["sum__bookings"]},
-    {"name": "Product conversion by day", "mart": "mart_product_daily", "viz_type": "echarts_timeseries_line", "groupby": ["date_key"], "metrics": ["avg__booking_row_rate"]},
-    {"name": "Bookings by channel and platform", "mart": "mart_channel_platform", "viz_type": "echarts_timeseries_bar", "groupby": ["channel"], "metrics": ["sum__bookings"]},
-    {"name": "Top destinations by bookings", "mart": "mart_destination_performance", "viz_type": "echarts_timeseries_bar", "x_axis": "destination_id", "order_desc": true, "groupby": ["destination_id"], "metrics": ["sum__bookings"]}
+    {
+      "name": "Product bookings by day",
+      "mart": "mart_product_daily",
+      "viz_type": "echarts_timeseries_line",
+      "groupby": [
+        "date_key"
+      ],
+      "metrics": [
+        "sum__bookings"
+      ]
+    },
+    {
+      "name": "Product conversion by day",
+      "mart": "mart_product_daily",
+      "viz_type": "echarts_timeseries_line",
+      "groupby": [
+        "date_key"
+      ],
+      "metrics": [
+        "avg__booking_row_rate"
+      ]
+    },
+    {
+      "name": "Bookings by channel and platform",
+      "mart": "mart_channel_platform",
+      "viz_type": "echarts_timeseries_bar",
+      "groupby": [
+        "channel"
+      ],
+      "metrics": [
+        "sum__bookings"
+      ]
+    },
+    {
+      "name": "Top destinations by bookings",
+      "mart": "mart_destination_performance",
+      "viz_type": "echarts_timeseries_bar",
+      "x_axis": "destination_id",
+      "order_desc": true,
+      "groupby": [
+        "destination_id"
+      ],
+      "metrics": [
+        "sum__bookings"
+      ]
+    }
   ]
 }

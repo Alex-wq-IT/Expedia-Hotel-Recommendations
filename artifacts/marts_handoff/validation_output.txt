@@ -1,0 +1,30 @@
+mart_product_daily                 rows=      724 dup_grain=    0 null_grain=    0
+mart_session_daily                 rows=      724 dup_grain=    0 null_grain=    0
+mart_travel_calendar_daily         rows=    6,908 dup_grain=    0 null_grain=    0
+mart_channel_platform              rows=   11,720 dup_grain=    0 null_grain=    0
+mart_destination_performance       rows=  502,728 dup_grain=    0 null_grain=    0
+mart_user_360                      rows=1,198,786 dup_grain=    0 null_grain=    0
+mart_origin_destination            rows=  151,998 dup_grain=    0 null_grain=    0
+mart_trip_profile                  rows=    2,399 dup_grain=    0 null_grain=    0
+mart_package_profile               rows=   72,280 dup_grain=    0 null_grain=    0
+mart_retention_cohort              rows=      300 dup_grain=    0 null_grain=    0
+mart_booking_frequency             rows=        5 dup_grain=    0 null_grain=    0
+mart_booking_frequency_exact       rows=      101 dup_grain=    0 null_grain=    0
+mart_data_quality_daily            rows=      724 dup_grain=    0 null_grain=    0
+mart_distance_quality              rows=       49 dup_grain=    0 null_grain=    0
+
+Reconciliation:
+PASS product vs channel rows: 37,669,324 vs 37,669,324
+PASS product vs channel bookings: 3,000,689 vs 3,000,689
+PASS product vs destination rows: 37,669,324 vs 37,669,324
+PASS product vs destination bookings: 3,000,689 vs 3,000,689
+PASS product vs origin rows: 37,669,324 vs 37,669,324
+PASS product vs origin bookings: 3,000,689 vs 3,000,689
+PASS product vs calendar events: 37,669,324 vs 37,669,324
+PASS product vs calendar bookings: 3,000,689 vs 3,000,689
+PASS product vs DQ rows: 37,669,324 vs 37,669,324
+PASS user360 vs frequency users: 1,198,786 vs 1,198,786
+PASS user360 vs exact frequency users: 1,198,786 vs 1,198,786
+PASS user360 vs product bookings: 3,000,689 vs 3,000,689
+
+ALL MART CHECKS PASSED

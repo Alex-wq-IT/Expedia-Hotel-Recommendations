@@ -1,4 +1,4 @@
-import json
+﻿import json
 import os
 import tempfile
 import threading
@@ -196,9 +196,28 @@ class PublishBiTest(unittest.TestCase):
 
     def test_registry_contains_existing_marts(self):
         registry = load_registry()
-        self.assertEqual(len(registry["marts"]), 12)
-        for item in registry["marts"]:
-            self.assertTrue((Path("data/derived/marts") / f"{item['name']}.parquet").is_file())
+
+        expected_marts = {
+            "mart_product_daily",
+            "mart_session_daily",
+            "mart_travel_calendar_daily",
+            "mart_channel_platform",
+            "mart_destination_performance",
+            "mart_user_360",
+            "mart_origin_destination",
+            "mart_trip_profile",
+            "mart_retention_cohort",
+            "mart_booking_frequency",
+            "mart_data_quality_daily",
+            "mart_distance_quality",
+            "mart_package_profile",
+            "mart_booking_frequency_exact",
+        }
+
+        actual_marts = {item["name"] for item in registry["marts"]}
+
+        self.assertEqual(len(registry["marts"]), 14)
+        self.assertEqual(actual_marts, expected_marts)
 
     def test_identifier_is_quoted_and_rejects_sql(self):
         self.assertEqual(quote_identifier("mart_product_daily"), "`mart_product_daily`")
@@ -409,3 +428,4 @@ class PublishBiTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

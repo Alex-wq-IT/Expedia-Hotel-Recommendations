@@ -1,7 +1,16 @@
 # Analytics extension schema
 
-The base CORE objects are documented in [core_schema.md](core_schema.md). This
-extension is built by `tools/build_analytics.py` and reads CORE only.
+The base CORE objects are documented in [core_schema.md](core_schema.md).
+
+The analytical layer is built in two steps:
+
+```text
+tools/build_analytics.py      -> 12 base marts + session objects
+tools/build_extra_marts.py    -> 2 supplementary marts
+tools/validate_marts.py       -> schema/grain/reconciliation validation
+```
+
+The production Makefile runs all three steps through `make bi-build`.
 
 ## Session objects
 
@@ -26,24 +35,38 @@ not used for boundaries.
 | `marts.mart_user_360` | user |
 | `marts.mart_origin_destination` | month × user country × hotel country |
 | `marts.mart_trip_profile` | month × lead bucket × stay bucket × party segment |
+| `marts.mart_package_profile` | month × package × lead bucket × stay bucket × party segment × channel × mobile flag |
 | `marts.mart_retention_cohort` | first booking month × months since first booking |
 | `marts.mart_booking_frequency` | booking-count bucket |
+| `marts.mart_booking_frequency_exact` | exact observed booking count |
 | `marts.mart_data_quality_daily` | event date |
 | `marts.mart_distance_quality` | imputation level × support threshold |
 
-All behavioral marts use `source_dataset = 'train'`. Row-level volumes use
-`COUNT(*)`; weighted volumes use `SUM(cnt)`. Booking rates are named explicitly
-as row-based or `cnt`-weighted. `booking_value_proxy` is a relative score, not
-money.
+All behavioral marts use `source_dataset = 'train'` where applicable.
+Row-level volumes use `COUNT(*)`; weighted volumes use `SUM(cnt)`.
+`booking_value_proxy` is a relative score, not money/revenue.
 
-## Resource-safe build
+## Supplementary marts
 
-Sessionization is exact because users cannot cross hash buckets. The build uses
-32 deterministic user-hash buckets, writes Parquet fragments under
-`data/derived/core/session_events/`, aggregates each fragment separately, and
-limits DuckDB to two threads and 2GB. A cache manifest invalidates fragments
-when the CORE build timestamp or eligible event count changes.
+`mart_package_profile` and `mart_booking_frequency_exact` are built by
+`tools/build_extra_marts.py` after the base analytical build. The script reads
+CORE/base MARTS only, writes Parquet under `data/derived/marts/`, refreshes
+DuckDB views, and records `artifacts/extra_marts_manifest.json`.
 
-See [analytics_build_report.md](analytics_build_report.md) for the latest
-counts, sensitivity comparison, and validation results. The machine-readable
-manifest is [analytics_manifest.json](../artifacts/analytics_manifest.json).
+## Validation contract
+
+`tools/validate_marts.py` verifies all 14 physical marts against
+`bi/registry.json`, including schema, grain, domains, logical constraints and
+reconciliation of global totals.
+
+Run:
+
+```bash
+make bi-build
+# or only validation:
+make bi-validate
+```
+
+See [marts_architecture.md](marts_architecture.md),
+[marts_catalog.md](marts_catalog.md) and
+[marts_dashboard_logic.md](marts_dashboard_logic.md).

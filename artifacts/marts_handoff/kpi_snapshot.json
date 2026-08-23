@@ -1,0 +1,23 @@
+{
+  "source_observed_period": {
+    "min_event_date": "2013-01-07",
+    "max_event_date": "2014-12-31"
+  },
+  "row_events": 37669324,
+  "weighted_events_sum_cnt": 55878461,
+  "bookings": 3000689,
+  "booking_row_rate": 0.07965868991968106,
+  "booking_weighted_event_rate": 0.054519647561517434,
+  "unique_users": 1198786,
+  "unique_bookers": 813985,
+  "unique_booker_share": 0.67900776285342,
+  "sessions": 12242331,
+  "booking_sessions": 2661774,
+  "session_booking_rate": 0.21742378963614037,
+  "mobile_row_share": 0.1349286756513071,
+  "mobile_booking_share": 0.09921254751825327,
+  "package_booking_share": 0.13669793837348684,
+  "quality_issue_share": 0.3635182834711873,
+  "missing_distance_share": 0.3590200609918033,
+  "distance_imputed_share": 0.13021059257660156
+}

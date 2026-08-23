@@ -1,0 +1,15 @@
+mart,rows,grain_key,duplicate_grain_rows,null_grain_rows
+mart_product_daily,724,date_key,0,0
+mart_session_daily,724,date_key,0,0
+mart_travel_calendar_daily,6908,date_key,0,0
+mart_channel_platform,11720,year_month + channel + platform_id + is_mobile,0,0
+mart_destination_performance,502728,year_month + destination_id + hotel_market_id,0,0
+mart_user_360,1198786,user_id,0,0
+mart_origin_destination,151998,year_month + user_country + hotel_country,0,0
+mart_trip_profile,2399,year_month + lead_time_bucket + stay_length_bucket + party_segment,0,0
+mart_retention_cohort,300,cohort_month + months_since_first_booking,0,0
+mart_booking_frequency,5,booking_count_bucket,0,0
+mart_booking_frequency_exact,101,bookings,0,0
+mart_data_quality_daily,724,date_key,0,0
+mart_distance_quality,49,imputation_level + min_support,0,0
+mart_package_profile,72280,year_month + is_package + lead_time_bucket + stay_length_bucket + party_segment + channel + is_mobile,0,0

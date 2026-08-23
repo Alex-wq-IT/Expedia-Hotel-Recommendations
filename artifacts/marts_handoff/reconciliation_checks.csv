@@ -1,0 +1,13 @@
+check,left_value,right_value,delta,pass
+product_vs_channel_row_events,37669324,37669324,0,True
+product_vs_channel_bookings,3000689,3000689,0,True
+product_vs_destination_row_events,37669324,37669324,0,True
+product_vs_destination_bookings,3000689,3000689,0,True
+product_vs_origin_row_events,37669324,37669324,0,True
+product_vs_origin_bookings,3000689,3000689,0,True
+product_vs_calendar_events,37669324,37669324,0,True
+product_vs_calendar_bookings,3000689,3000689,0,True
+product_vs_quality_rows,37669324,37669324,0,True
+user360_vs_booking_frequency_users,1198786,1198786,0,True
+user360_vs_booking_frequency_exact_users,1198786,1198786,0,True
+user360_vs_product_bookings,3000689,3000689,0,True

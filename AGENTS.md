@@ -87,8 +87,10 @@ quality flags are suspicious.
 - `marts.mart_user_360` — one user.
 - `marts.mart_origin_destination` — one month × user country × hotel country.
 - `marts.mart_trip_profile` — one month × lead-time bucket × stay-length bucket × party segment.
+- `marts.mart_package_profile` — one month × package flag × lead-time bucket × stay-length bucket × party segment × channel × mobile flag.
 - `marts.mart_retention_cohort` — one first-booking month × months since first booking.
 - `marts.mart_booking_frequency` — one booking-count bucket.
+- `marts.mart_booking_frequency_exact` — one exact observed booking-row count.
 - `marts.mart_data_quality_daily` — one event date.
 - `marts.mart_distance_quality` — one imputation level × support threshold.
 

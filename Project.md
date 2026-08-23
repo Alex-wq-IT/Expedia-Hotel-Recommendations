@@ -93,6 +93,8 @@ Superset / dashboard-прототип
 
 - `tools/build_core.py` — регистрирует обязательные source-aligned RAW views и строит производные STAGING/CORE, не изменяя исходные Parquet.
 - `tools/build_analytics.py` — строит сессии и первые аналитические MARTS на основе CORE.
+- `tools/build_extra_marts.py` — строит дополнительные `mart_package_profile` и `mart_booking_frequency_exact`.
+- `tools/validate_marts.py` — проверяет полный контракт 14 MARTS, grain, registry и reconciliation totals.
 
 Setup/build ноутбуки:
 

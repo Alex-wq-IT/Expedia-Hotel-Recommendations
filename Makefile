@@ -1,4 +1,4 @@
-.PHONY: bi-up bi-down bi-build bi-publish bi-export bi-all bi-test
+.PHONY: bi-up bi-down bi-build bi-validate bi-publish bi-export bi-all bi-test
 
 bi-up:
 	docker compose -f infra/docker-compose.yml up -d
@@ -8,6 +8,11 @@ bi-down:
 
 bi-build:
 	python3 tools/build_analytics.py
+	python3 tools/build_extra_marts.py
+	python3 tools/validate_marts.py
+
+bi-validate:
+	python3 tools/validate_marts.py
 
 bi-publish:
 	python3 tools/publish_bi.py publish
@@ -17,6 +22,8 @@ bi-export:
 
 bi-all:
 	python3 tools/build_analytics.py
+	python3 tools/build_extra_marts.py
+	python3 tools/validate_marts.py
 	python3 tools/publish_bi.py all
 
 bi-test:
