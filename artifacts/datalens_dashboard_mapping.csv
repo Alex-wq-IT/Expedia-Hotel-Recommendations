@@ -1,0 +1,28 @@
+﻿dashboard_page,widget,mart,dimensions,metrics,formula_or_rule
+Обзор продукта,Среднее число пользователей в день,mart_product_daily,date_key,active_users,AVG(active_users) по выбранному периоду
+Обзор продукта,Бронирования,mart_product_daily,date_key,bookings,SUM(bookings)
+Обзор продукта,Конверсия в бронирование,mart_product_daily,date_key,"bookings,row_events",SUM(bookings)/SUM(row_events)
+Обзор продукта,Сессии,mart_session_daily,date_key,sessions,SUM(sessions)
+Обзор продукта,Доля сессий с бронированием,mart_session_daily,date_key,"booking_sessions,sessions",SUM(booking_sessions)/SUM(sessions)
+Обзор продукта,Динамика аудитории и бронирований,mart_product_daily,date_key,"active_users,bookings",агрегация по месяцу
+Обзор продукта,Доля mobile в трафике и бронированиях,mart_product_daily,date_key,"mobile_row_share,mobile_booking_share",дневные доли / агрегация по периоду
+Обзор продукта,Динамика конверсии,mart_product_daily,date_key,"bookings,row_events",SUM(bookings)/SUM(row_events) по месяцу
+Обзор продукта,Динамика всех сессий и сессий с бронированием,mart_session_daily,date_key,"sessions,booking_sessions",SUM по месяцу
+Каналы и устройства,Конверсия в бронирование по каналам,mart_channel_platform,channel,"booking_weighted_event_rate,weighted_events",weighted conversion с учетом cnt
+Каналы и устройства,Объём активности по каналам,mart_channel_platform,channel,weighted_events,SUM(weighted_events)
+Каналы и устройства,Конверсия по типу устройства,mart_channel_platform,is_mobile,"booking_weighted_event_rate,weighted_events",weighted conversion с учетом cnt
+Каналы и устройства,Динамика Mobile и Desktop,mart_channel_platform,"year_month,is_mobile","booking_weighted_event_rate,weighted_events",weighted conversion по месяцу
+Сценарии поездок,Конверсия по сроку планирования,mart_trip_profile,lead_time_bucket,"booking_weighted_event_rate,weighted_events",weighted conversion с учетом cnt
+Сценарии поездок,Конверсия по длительности проживания,mart_trip_profile,stay_length_bucket,"booking_weighted_event_rate,weighted_events",weighted conversion с учетом cnt
+Сценарии поездок,Heatmap срок до поездки × длительность,mart_trip_profile,"lead_time_bucket,stay_length_bucket","booking_weighted_event_rate,weighted_events",weighted conversion
+Сценарии поездок,Распределение активности по сроку до поездки,mart_trip_profile,lead_time_bucket,weighted_events,SUM(weighted_events)
+Сценарии поездок,Конверсия по составу путешественников,mart_trip_profile,party_segment,"booking_weighted_event_rate,weighted_events",weighted conversion
+Сценарии поездок,Динамика конверсии по составу,mart_trip_profile,"year_month,party_segment","booking_weighted_event_rate,weighted_events",weighted conversion по месяцу
+Удержание,Новые пользователи с первым бронированием,mart_retention_cohort,cohort_month,cohort_users,cohort_users при months_since_first_booking=0
+Удержание,Повторные бронирования через 1/3/6 месяцев,mart_retention_cohort,"cohort_month,months_since_first_booking",booking_retention_rate,"фильтр offset 1,3,6"
+Удержание,Когортная heatmap,mart_retention_cohort,"cohort_month,months_since_first_booking",booking_retention_rate,returned_bookers/cohort_users
+Удержание,Retention по месяцам после первого бронирования,mart_retention_cohort,months_since_first_booking,"returned_bookers,cohort_users",SUM(returned_bookers)/SUM(cohort_users)
+География и календарь,Среднее количество заездов в день по месяцам,mart_travel_calendar_daily,full_date/year_month,checkins_on_date,AVG(checkins_on_date) по месяцу
+География и календарь,Бронирования и заезды по дням недели,mart_travel_calendar_daily,full_date,"bookings_made_on_date,checkins_on_date",день недели вычисляется из full_date
+География и календарь,Объём и конверсия крупнейших гостиничных рынков,mart_destination_performance,hotel_market_id,"weighted_events,booking_weighted_event_rate",объём vs weighted conversion; фильтр объёма
+География и календарь,Крупные рынки с низкой конверсией,mart_destination_performance,hotel_market_id,"weighted_events,booking_weighted_event_rate",ranking только после volume filter

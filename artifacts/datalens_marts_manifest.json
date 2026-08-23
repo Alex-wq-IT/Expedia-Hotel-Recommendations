@@ -1,0 +1,138 @@
+{
+  "scope": "Only marts directly supporting the supplied Yandex DataLens dashboard",
+  "marts": [
+    {
+      "name": "mart_product_daily",
+      "grain": [
+        "date_key"
+      ],
+      "rows": 724,
+      "dashboard_page": "Обзор продукта",
+      "file": "marts_csv/mart_product_daily.csv"
+    },
+    {
+      "name": "mart_session_daily",
+      "grain": [
+        "date_key"
+      ],
+      "rows": 724,
+      "dashboard_page": "Обзор продукта",
+      "file": "marts_csv/mart_session_daily.csv"
+    },
+    {
+      "name": "mart_channel_platform",
+      "grain": [
+        "year_month",
+        "channel",
+        "platform_id",
+        "is_mobile"
+      ],
+      "rows": 11720,
+      "dashboard_page": "Каналы и устройства",
+      "file": "marts_csv/mart_channel_platform.csv"
+    },
+    {
+      "name": "mart_trip_profile",
+      "grain": [
+        "year_month",
+        "lead_time_bucket",
+        "stay_length_bucket",
+        "party_segment"
+      ],
+      "rows": 2399,
+      "dashboard_page": "Сценарии поездок",
+      "file": "marts_csv/mart_trip_profile.csv"
+    },
+    {
+      "name": "mart_retention_cohort",
+      "grain": [
+        "cohort_month",
+        "months_since_first_booking"
+      ],
+      "rows": 300,
+      "dashboard_page": "Удержание",
+      "file": "marts_csv/mart_retention_cohort.csv"
+    },
+    {
+      "name": "mart_travel_calendar_daily",
+      "grain": [
+        "date_key"
+      ],
+      "rows": 6908,
+      "dashboard_page": "География и календарь",
+      "file": "marts_csv/mart_travel_calendar_daily.csv"
+    },
+    {
+      "name": "mart_destination_performance",
+      "grain": [
+        "year_month",
+        "destination_id",
+        "hotel_market_id"
+      ],
+      "rows": 502728,
+      "dashboard_page": "География и календарь",
+      "file": "marts_csv/mart_destination_performance.csv"
+    }
+  ],
+  "headline_metrics": {
+    "row_events": 37669324,
+    "weighted_events": 55878461,
+    "bookings": 3000689,
+    "booking_row_conversion": 0.07965868991968106,
+    "avg_active_users_per_day": 13706.567679558011,
+    "sessions": 12242331,
+    "booking_sessions": 2661774,
+    "session_booking_rate": 0.21742378963614037
+  },
+  "reconciliation": {
+    "product_row_events": 37669324,
+    "channel_row_events": 37669324,
+    "destination_row_events": 37669324,
+    "calendar_row_events": 37669324,
+    "product_weighted_events": 55878461,
+    "channel_weighted_events": 55878461,
+    "destination_weighted_events": 55878461,
+    "calendar_weighted_events": 55878461,
+    "product_bookings": 3000689,
+    "channel_bookings": 3000689,
+    "destination_bookings": 3000689,
+    "calendar_bookings": 3000689
+  },
+  "validation": {
+    "mart_product_daily": {
+      "rows": 724,
+      "duplicate_grain_rows": 0,
+      "null_grain_rows": 0
+    },
+    "mart_session_daily": {
+      "rows": 724,
+      "duplicate_grain_rows": 0,
+      "null_grain_rows": 0
+    },
+    "mart_channel_platform": {
+      "rows": 11720,
+      "duplicate_grain_rows": 0,
+      "null_grain_rows": 0
+    },
+    "mart_trip_profile": {
+      "rows": 2399,
+      "duplicate_grain_rows": 0,
+      "null_grain_rows": 0
+    },
+    "mart_retention_cohort": {
+      "rows": 300,
+      "duplicate_grain_rows": 0,
+      "null_grain_rows": 0
+    },
+    "mart_travel_calendar_daily": {
+      "rows": 6908,
+      "duplicate_grain_rows": 0,
+      "null_grain_rows": 0
+    },
+    "mart_destination_performance": {
+      "rows": 502728,
+      "duplicate_grain_rows": 0,
+      "null_grain_rows": 0
+    }
+  }
+}
